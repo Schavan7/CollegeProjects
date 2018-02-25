@@ -1,0 +1,171 @@
+import java.io.IOException;
+
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Reducer;
+
+public class MaxTemperatureReducer
+  extends Reducer<Text, IntWritable, Text, IntWritable> {
+
+  @Override
+  public void reduce(Text key, Iterable<IntWritable> values,
+      Context context)
+      throws IOException, InterruptedException {
+
+    int maxValue = Integer.MIN_VALUE;
+    for (IntWritable value : values) {
+      maxValue = Math.max(maxValue, value.get());
+    }
+    context.write(key, new IntWritable(maxValue));
+  }
+}
+
+MinMax
+++++++++++++++++++++++++++
+
+import java.io.IOException;
+
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Reducer;
+
+public class MaxTemperatureReducer
+  extends Reducer<Text, IntWritable, Text, IntWritable> {
+
+  @Override
+  public void reduce(Text key, Iterable<IntWritable> values,
+      Context context)
+      throws IOException, InterruptedException {
+
+    int maxValue = Integer.MIN_VALUE;
+    int minValue = Integer.MAX_VALUE;
+    for (IntWritable value : values) {
+      maxValue = Math.max(maxValue, value.get());
+      minValue = Math.min(minValue, value.get());
+    }
+    context.write(key, new IntWritable(maxValue));
+    context.write(key, new IntWritable(minValue));
+  }
+}
+
+Avg
++++++++++++++++=+
+
+
+import java.io.IOException;
+
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Reducer;
+
+public class MaxTemperatureReducer
+  extends Reducer<Text, IntWritable, Text, IntWritable> {
+
+  @Override
+  public void reduce(Text key, Iterable<IntWritable> values,
+      Context context)
+      throws IOException, InterruptedException {
+
+    int sum = 0;
+    int count = 0;
+    for (IntWritable value : values) {
+	sum = sum + value.get();
+	count++;
+    }
+    context.write(key, new IntWritable(sum/count));
+  }
+}
+
+
+
+Median
++++++++++++++++++++++++++++++++++++++
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Reducer;
+
+public class MaxTemperatureReducer
+  extends Reducer<Text, IntWritable, Text, IntWritable> {
+
+  @Override
+  public void reduce(Text key, Iterable<IntWritable> values,
+      Context context)
+      throws IOException, InterruptedException {
+List<Integer> list = new ArrayList<Integer>();
+int medianIdx = null;
+    for (IntWritable value : values) {
+	list.add(value);
+    }
+if(list.size()%2 == 0){
+
+ medianIdx = list.size()/2;
+
+}
+else{
+ medianIdx = (list.size() + 1)/2;
+
+}
+
+    context.write(key, new IntWritable(list.get(medianIdx)));
+  }
+}
+
+
+
+
+
+•	Std Deviation
++++++++++++++++++++++++++++++++++++++
+
+
+
+import java.io.IOException;
+
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.DoubleWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Reducer;
+
+public class MaxTemperatureReducer
+  extends Reducer<Text, IntWritable, Text, IntWritable> {
+
+  @Override
+  public void reduce(Text key, Iterable<IntWritable> values,
+      Context context)
+      throws IOException, InterruptedException {
+
+    int sum = 0;
+    int count = 0;
+    for (IntWritable value : values) {
+	sum = sum + value.get();
+	count++;
+    }
+
+    int mean = sum/count;
+    
+
+    sum = 0;
+    for (IntWritable value : values) {
+
+	sum = sum + Math.pow((value.get() - mean), 2);
+    }
+
+   Double std = Math.sqrt(sum);
+
+    context.write(key, new DoubleWritable(std));
+  }
+}
+
+
+
+Item-Three: z
++++++++++++++++++++++++++++++++++++++
+
+
+
+
+

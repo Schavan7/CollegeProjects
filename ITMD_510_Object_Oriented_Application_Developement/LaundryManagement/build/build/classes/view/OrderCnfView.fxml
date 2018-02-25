@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.CheckoutController">
+   <children>
+      <Label fx:id="labelorderconfview" layoutX="96.0" layoutY="107.0" prefHeight="36.0" prefWidth="418.0" text="Congratulations!! You have successfully placed your order." textFill="#2a14d3">
+         <font>
+            <Font size="26.0" />
+         </font>
+      </Label>
+      <Hyperlink fx:id="btnorderconfview" layoutX="536.0" layoutY="2.0" onAction="#redirectlogin" text="Log Out" />
+      <Hyperlink fx:id="btnorderconfview" layoutX="480.0" layoutY="2.0" onAction="#redirectCart" text="Home" />
+   </children>
+</AnchorPane>

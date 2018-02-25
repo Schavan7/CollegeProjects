@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Document</title>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+
+    <style>
+        body {
+        text-align: center;
+        }
+
+        .table  {
+        width: 80%;
+        margin-left:10%; 
+        margin-right:10%;
+        }
+        .active{
+            background-color: #90EE90;
+        }
+        .inactive {
+            background-color:#F08080;
+        }
+        .disabled {
+                opacity: 0.6;
+            }
+        span{
+                width:30px;
+                height:auto;
+                display:inline-block;
+            }
+        .main{
+                padding: 20px 30px;
+            }
+        .err {
+            width: 80%;
+            margin-left:10%; 
+            margin-right:10%;
+            
+        }
+        th {
+            background-color: rgb(99, 102, 99);
+            text-align: center;
+            color: white;
+            }
+    </style>
+
+    </head>
+    <body>
+        <div class="main">
+            <h3>ITMD-565-Lab3 </h3><br>
+            <h4>Shrija Chavan -  schavan7@hawk.iit.edu</h4><br>
+            <button id="start" class="btn btn-primary" disabled>Load Data</button>
+            <span></span>
+            <button id="reset" class= "btn btn-danger" disabled >Reset</button>
+        </div>
+        <!-- this div is created to handle the error -->
+        <div id ="err" class=" err"></div>
+
+        <div><p><h4>Employee List</h4></p></div>
+        <div>
+            <table id="table" class="table table-bordered">
+            <thead id="tabelhead">
+                <tr>
+                    <th>ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Title</th>
+                    <th>Email</th>
+                    <th>Gender</th>
+                    <th>Active</th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+            </tbody>
+        </table>
+        </div>
+        
+            <script>
+                var mainDiv = document.getElementById('result');
+                var loadbtn =  document.getElementById('start');
+                var resetbtn = document.getElementById('reset');
+                var table = document.getElementById('table');
+                var tableHead = document.getElementById('tabelhead');
+                var tbody = document.getElementById('tbody');
+                var ErrDiv = document.getElementById('err');
+                resetbtn.disabled = true;
+                loadbtn.disabled = false;
+    
+    //The getDataFromUrl method will check the ready state and status and call creatTable() or else will call showError().
+                function getDataFromUrl(){
+                    var myrequest = new XMLHttpRequest();
+                    myrequest.onreadystatechange = function(){
+                        if(myrequest.readyState ==4){
+                            if( myrequest.status === 200){
+                                clearError();
+                                var myArray = JSON.parse(myrequest.responseText);
+                                createTable(myArray);
+
+                            }
+                            else{
+                                showError();
+                            }
+                        }
+                }
+                myrequest.open("GET","http://libertyville.rice.iit.edu/scripts/4565_lab3.php",true);
+                myrequest.send();
+                };
+                
+
+    // Reset clears up all the table body when clicked and enables load button.
+        function reset() {
+            loadbtn.disabled = false;
+            resetbtn.disabled = true;
+            tbody.innerHTML= " ";
+        };
+
+
+    //  createTable will show all the rows of the table and enables reset button.
+        function createTable(myArray){   
+            for (var i=0; i< myArray.length; i++){
+                var row = document.createElement('tr');
+                var cellid = document.createElement('td');
+                var cellidText = document.createTextNode(myArray[i].id);
+                var cellFn = document.createElement('td');
+                var cellfnText = document.createTextNode(myArray[i].first_name);
+                var cellln = document.createElement('td');
+                var celllnText = document.createTextNode(myArray[i].last_name);
+                var cellTitle = document.createElement('td');
+                var celllTitleText = document.createTextNode(myArray[i].title);
+                var cellEmail = document.createElement('td');
+                var celllEmailText = document.createTextNode(myArray[i].email);
+                var cellGender = document.createElement('td');
+                var celllGenderText = document.createTextNode(myArray[i].gender);
+                var cellActive = document.createElement('td');
+                var celllActiveText = document.createTextNode(myArray[i].active);
+                //the below condition is written to differentiate the active status by giving different colors.
+                if (celllActiveText.nodeValue === 'true'){
+                    cellActive.className = 'active';
+                }
+                else if (celllActiveText.nodeValue === 'false'){
+                    cellActive.className = 'inactive';
+                }
+
+                cellln.appendChild(celllnText);
+                cellFn.appendChild(cellfnText);
+                cellid.appendChild(cellidText);
+                cellTitle.appendChild(celllTitleText);
+                cellEmail.appendChild(celllEmailText);
+                cellGender.appendChild(celllGenderText);
+                cellActive.appendChild(celllActiveText);
+                row.appendChild(cellid);
+                row.appendChild(cellFn);
+                row.appendChild(cellln);
+                row.appendChild(cellTitle);
+                row.appendChild(cellEmail);
+                row.appendChild(cellGender);
+                row.appendChild(cellActive);
+                tbody.appendChild(row);
+                    }
+                table.appendChild(tbody);
+                resetbtn.disabled = false;
+                loadbtn.disabled= true;
+        };  
+
+    // The showError() is called when the readyState is anything other than 4. You can test this by just changing the url.
+        function  showError(){
+            var ins = document.getElementById('instance');
+            if (!ins){
+                var errResultdiv = document.createElement('div');
+                errResultdiv.className = 'alert alert-danger';
+                errResultdiv.setAttribute("id","instance");
+                var errresultdivText = document.createTextNode('Oops,seems there is a Error, please try again later');
+                errResultdiv.appendChild(errresultdivText);
+                ErrDiv.appendChild(errResultdiv);
+            }
+            
+        }
+
+        // clearError() clears the error.
+        function clearError(){
+            var ins = document.getElementById('instance');
+            if(ins){
+                ErrDiv.removeChild(ins);
+            }
+        }
+
+    // The click events
+        loadbtn.addEventListener('click',getDataFromUrl,false);
+        resetbtn.addEventListener('click',reset,false);
+        
+        </script>
+    </body>
+    </html>

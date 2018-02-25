@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="485.0" prefWidth="638.0" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.AdminDashController">
+   <children>
+      <Label fx:id="labeladmindashview" layoutX="46.0" layoutY="243.0" text="Service configuration" />
+      <Label fx:id="labeladmindashview" layoutX="286.0" layoutY="243.0" text="Customers" />
+      <Label fx:id="labeladmindashview" layoutX="482.0" layoutY="243.0" text="Orders" />
+      <Button fx:id="serviceConfigBtn" layoutX="46.0" layoutY="87.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#launchServiceConfig" prefHeight="142.0" prefWidth="150.0" />
+      <Button fx:id="customersBtn" layoutX="246.0" layoutY="87.0" mnemonicParsing="false" onAction="#launchCustomerView" prefHeight="142.0" prefWidth="150.0" />
+      <Button fx:id="ordersBtn" layoutX="438.0" layoutY="87.0" mnemonicParsing="false" onAction="#launchOrdersView" prefHeight="142.0" prefWidth="150.0" />
+      <Hyperlink fx:id="logoutadmindashview" layoutX="547.0" layoutY="10.0" onAction="#redirectlogin" text="Log Out">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Hyperlink>
+   </children>
+</AnchorPane>

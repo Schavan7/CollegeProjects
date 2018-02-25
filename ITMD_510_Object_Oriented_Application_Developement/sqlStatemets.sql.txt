@@ -1,0 +1,94 @@
+
+
+
+CREATE TABLE IF NOT EXISTS User
+	(user_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	firstName VARCHAR(30),
+	lastName VARCHAR(30),
+	email VARCHAR(40) UNIQUE,
+	password VARCHAR(30),
+	phone INT,
+	Gender VARCHAR(5),
+	member TINYINT(1),
+	created TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
+
+CREATE TABLE IF NOT EXIST Roles(
+	role_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR2(30));
+
+
+CREATE TABLE IF NOT EXISTS User_role
+	(user_id INT,
+	role_id INT,
+	--CONSTRAINT pk_user_role PRIMARY KEY (user_id, role_id),
+	FOREIGN KEY(user_id) REFERENCES User(user_id),
+	FOREIGN KEY(role_id) REFERENCES Roles(role_id)
+	);
+
+CREATE TABLE IF NOT EXISTS Order
+	(order_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	customer_id INT,
+	order_date DATE,
+	status ENUM ('submitted','processing','delivered'),
+	discount DECIMAL(20,4),
+	tax DECIMAL(20,4),
+	total DECIMAL(20,4),
+	FOREIGN KEY(customer_id) REFERENCES User(user_id)
+	);
+
+CREATE TABLE IF NOT EXISTS Delivery
+	(delivery_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	order_id INT,
+	delivery_agent_id INT,
+	pickup_date DATE,
+	drop_date DATE
+	FOREIGN KEY (order_id) REFERENCES Order(order_id)
+	FOREIGN KEY (delivery_agent_id) REFERENCES User(user_id));
+
+
+CREATE TABLE IF NOT EXISTS Address
+	(address_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	address_line1 VARCHAR(40),
+	address_line2 VARCHAR(40),
+	city VARCHAR(40),
+	state VARCHAR(40),
+	zip_code INT,
+	address_type VARCHAR(40),
+	addressable_id INT);
+
+CREATE TABLE IF NOT EXISTS Service_Items
+	(service_item_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	admin_user_id INT,
+	service_name VARCHAR(40),	
+	price DECIMAL(20,4),
+	active BOOLEAN,
+	service_type VARCHAR(50),
+	FOREIGN KEY (admin_user_id) REFERENCES User(user_id));
+
+CREATE TABLE IF NOT EXISTS Order_Items
+	(order_Item_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	order_id INT,
+	price DECIMAL(20,4),
+	service_name VARCHAR(40),
+	service_type VARCHAR(50),
+	quantity INT,
+	FOREIGN KEY (order_id) REFERENCES Order(order_id));
+
+CREATE TABLE IF NOT EXISTS Promotion(
+	promotion_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	admin_user_id INT,
+	discount_percentage DECIMAL(20,4),
+	FOREIGN KEY (admin_user_id) REFERENCES User(user_id));
+
+
+	
+	
+
+
+
+
+
+
+
+
+

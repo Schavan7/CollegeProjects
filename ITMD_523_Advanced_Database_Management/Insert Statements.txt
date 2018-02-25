@@ -1,0 +1,73 @@
+
+
+
+
+
+
+
+
+
+Queries for user table;
+
+
+INSERT INTO `sys`.`user` (`user_id`, `FirstName`, `LastName`, `ZipCode`, `City`, `State`, `email`, `dept_id`, `username`, `password`) 
+VALUES ('20389660', 'Kedar', 'Naik', '60616', 'Chicago', 'IL', '@hawk.iit.edu', '2001', 'knaik3', '1234');
+
+
+
+
+
+INSERT INTO `sys`.`user` (`user_id`, `FirstName`, `LastName`, `ZipCode`, `City`, `State`, `email`, `dept_id`, `username`, `password`) VALUES ('20389661', 'Jyoti', 'Shukla', '60617', 'Chicago', 'IL', '@hawk.iit.edu', '2001', 'jshulka2', '1234');
+INSERT INTO `sys`.`user` (`user_id`, `FirstName`, `LastName`, `ZipCode`, `City`, `State`, `email`, `dept_id`, `username`, `password`) VALUES ('20389662', 'Siddharth', 'Mistry', '60616', 'Chicago', 'IL', '@hawk.iit.edu', '2001', 'mistrys12', '1234');
+INSERT INTO `sys`.`user` (`user_id`, `FirstName`, `LastName`, `ZipCode`, `City`, `State`, `email`, `dept_id`, `username`, `password`) VALUES ('20389663', 'James', 'Papademas', '60615', 'Chicago', 'IL', '@iit.edu', '2001', 'jpapa16', '1234');
+INSERT INTO `sys`.`user` (`user_id`, `FirstName`, `LastName`, `ZipCode`, `City`, `State`, `email`, `dept_id`, `username`, `password`) VALUES ('20389664', 'Yong', 'Zheng', '60614', 'Chicago', 'IL', '@iit.edu', '2001', 'zhengy1', '1234');
+INSERT INTO `sys`.`user` (`user_id`, `FirstName`, `LastName`, `ZipCode`, `City`, `State`, `email`, `dept_id`, `username`, `password`) VALUES ('20389665', 'Ray', 'Trygstad', '60613', 'Chicago', 'IL', '@iit.edu', '2001', 'trystadr', '1234');
+INSERT INTO `sys`.`user` (`user_id`, `FirstName`, `LastName`, `ZipCode`, `City`, `State`, `email`, `dept_id`, `username`, `password`) VALUES ('20389666', 'Kishan', 'Barwaliya', '60616', 'Chicago', 'IL', '@hawk.iit.edu', '2001', 'barwaliyak', '1234');
+INSERT INTO `sys`.`user` (`user_id`, `FirstName`, `LastName`, `ZipCode`, `City`, `State`, `email`, `dept_id`, `username`, `password`) VALUES ('20389667', 'Ryan', 'Nelson', '60616', 'Chicago', 'IL', '@hawk.iit.edu', '2001', 'nelsonr', '1234');
+INSERT INTO `sys`.`user` (`user_id`, `FirstName`, `LastName`, `ZipCode`, `City`, `State`, `email`, `dept_id`, `username`, `password`) VALUES ('20389668', 'George', 'Clooney', '60616', 'Chicago', 'IL', '@hawk.iit.edu', '2001', 'clooneyg3', '1234');
+INSERT INTO `sys`.`user` (`user_id`, `FirstName`, `LastName`, `ZipCode`, `City`, `State`, `email`, `dept_id`, `username`, `password`) VALUES ('20389669', 'Brad', 'Pitt', '60616', 'Chicago', 'IL', '@hawk.iit.edu', '2001', 'pittb2', '1234');
+INSERT INTO `sys`.`user` (`user_id`, `FirstName`, `LastName`, `ZipCode`, `City`, `State`, `email`, `dept_id`, `username`, `password`) VALUES ('20389670', 'Ben', 'Afflek', '60616', 'Chicago', 'IL', '@hawk.iit.edu', '2001', 'afflekb5', '1234');
+INSERT INTO `sys`.`user` (`user_id`, `FirstName`, `LastName`, `ZipCode`, `City`, `State`, `email`, `dept_id`, `username`, `password`) VALUES ('20389671', 'Christopher', 'Paulini', '60616', 'Chicago', 'IL', '@hawk.iit.edu', '2001', 'paulinic', '1234');
+INSERT INTO `sys`.`user` (`user_id`, `FirstName`, `LastName`, `ZipCode`, `City`, `State`, `email`, `dept_id`, `username`, `password`) VALUES ('20389672', 'Shrija ', 'Chavan', '60616', 'Chicago', 'IL', '@hawk.iit.edu', '2001', 'chavans', '1234');
+
+
+
+department table:;
+INSERT INTO `sys`.`department` (`dept_id`, `dept_name`) VALUES ('2001', 'ITM');
+INSERT INTO `sys`.`department` (`dept_id`, `dept_name`) VALUES ('2002', 'INTM');
+
+
+admin table:
+INSERT INTO `sys`.`admin` (`admin_id`, `admin_name`, `admin_password`) VALUES ('1031221', 'dexter12', '1234');
+INSERT INTO `sys`.`admin` (`admin_id`, `admin_name`, `admin_password`) VALUES ('1031222', 'alex34', '1234');
+
+course table:
+INSERT INTO `sys`.`course` (`course_id`, `course_name`, `dept_id`) VALUES ('30011', 'JAVA', '2001');
+INSERT INTO `sys`.`course` (`course_id`, `course_name`, `dept_id`) VALUES ('30012', 'ADM', '2001');
+INSERT INTO `sys`.`course` (`course_id`, `course_name`, `dept_id`) VALUES ('30013', 'LINUX', '2001');
+INSERT INTO `sys`.`course` (`course_id`, `course_name`, `dept_id`) VALUES ('30014', 'FM', '2002');
+
+
+class table:
+INSERT INTO `sys`.`class` (`class_id`, `user_id`, `course_id`, `capacity`) VALUES ('21101', '20389660', '30011', '12');
+INSERT INTO `sys`.`class` (`class_id`, `user_id`, `course_id`, `capacity`) VALUES ('21102', '20389661', '30012', '12');
+INSERT INTO `sys`.`class` (`class_id`, `user_id`, `course_id`, `capacity`) VALUES ('21103', '20389662', '30011', '12');
+INSERT INTO `sys`.`class` (`class_id`, `user_id`, `course_id`, `capacity`) VALUES ('21104', '20389663', '30013', '12');
+INSERT INTO `sys`.`class` (`class_id`, `user_id`, `course_id`, `capacity`) VALUES ('21105', '20389664', '30011', '12');
+INSERT INTO `sys`.`class` (`class_id`, `user_id`, `course_id`, `capacity`) VALUES ('21106', '20389665', '30014', '12');
+INSERT INTO `sys`.`class` (`class_id`, `user_id`, `course_id`, `capacity`) VALUES ('21107', '20389666', '30012', '12');
+INSERT INTO `sys`.`class` (`class_id`, `user_id`, `course_id`, `capacity`) VALUES ('21108', '20389667', '30013', '12');
+INSERT INTO `sys`.`class` (`class_id`, `user_id`, `course_id`, `capacity`) VALUES ('21109', '20389668', '30014', '12');
+INSERT INTO `sys`.`class` (`class_id`, `user_id`, `course_id`, `capacity`) VALUES ('21110', '20389669', '30012', '12');
+
+grade table:
+INSERT INTO `sys`.`grade` (`session_id`, `grade`, `user_id`, `class_id`) VALUES ('51121', '100', '20389660', '21101');
+INSERT INTO `sys`.`grade` (`session_id`, `grade`, `user_id`, `class_id`) VALUES ('51122', '91', '20389665', '21102');
+INSERT INTO `sys`.`grade` (`session_id`, `grade`, `user_id`, `class_id`) VALUES ('51123', '95', '20389667', '21102');
+INSERT INTO `sys`.`grade` (`session_id`, `grade`, `user_id`, `class_id`) VALUES ('51124', '97', '20389662', '21103');
+INSERT INTO `sys`.`grade` (`session_id`, `grade`, `user_id`, `class_id`) VALUES ('51125', '98', '20389663', '21104');
+INSERT INTO `sys`.`grade` (`session_id`, `grade`, `user_id`, `class_id`) VALUES ('51126', '100', '20389664', '21105');
+INSERT INTO `sys`.`grade` (`session_id`, `grade`, `user_id`, `class_id`) VALUES ('51127', '100', '20389665', '21106');
+INSERT INTO `sys`.`grade` (`session_id`, `grade`, `user_id`, `class_id`) VALUES ('51128', '100', '20389666', '21107');
+INSERT INTO `sys`.`grade` (`session_id`, `grade`, `user_id`, `class_id`) VALUES ('51129', '92', '20389665', '21108');
+INSERT INTO `sys`.`grade` (`session_id`, `grade`, `user_id`, `class_id`) VALUES ('51130', '92', '20389669', '21110');

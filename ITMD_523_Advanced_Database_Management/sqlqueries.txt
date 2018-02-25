@@ -1,0 +1,46 @@
+SQL QUERIES:
+
+1.faculty details in admin  view
+
+1.SELECTING ALL STUDENTS FROM THE USER TABLE:
+
+select * from user
+where email like'%hawk.iit.edu';
+
+
+
+2.SELECTING ALL FACULTIES FROM THE USER TABLE:
+select * from user
+where email like'%.iit.edu';
+
+SELECT USER_ID FROM USERNAME:
+
+--3.select user_id from user
+  where username ='---';
+
+
+3.TO SELECT THE COURSE DETAILS OF A STUDENT :
+
+SELECT cu.course_id, cu.course_name, c.class_id
+FROM COURSE CU INNER JOIN CLASS C 
+ON CU.COURSE_ID == C.COURSE_ID
+WHERE (select user_id from user
+where username ='---');
+
+
+4.TO SELECT THE DETAILS TO CLASS MEMBERS IN THE CLASS:
+
+SELECT U.USER_ID,U.FIRSTNAME, U.LASTNAME, U.EMAI_ID,C.CLASS_ID,U.PHONE
+FROM USER U INNER JOIN CLASS C 
+ON U.USER_ID = C.USER_ID
+WHERE C.CLASS_ID = '-----';
+
+
+5.TO SEE THE GRADE OF THE STUDENT:
+
+SELECT U.USER_ID,G.GRADE
+FROM USER U INNER JOIN GRADE G 
+ON U.USER_ID = G.USER_ID
+WHERE U.USER_ID = '---';
+
+

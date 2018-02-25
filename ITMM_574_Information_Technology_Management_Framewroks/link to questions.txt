@@ -1,0 +1,12 @@
+
+
+question ITIL exam
+
+http://www.gocertify.com/quizzes/itil-practice-questions/itil-practice-quiz-itil-foundation-quiz-1.html
+
+https://quizlet.com/45664372/itil-practice-questions-flash-cards/
+
+						
+						<c:forEach items="${departments}" var="department">
+        			<option value="${department.getDeptId()}"><c:out value="${department.getDeptName()}" /></option>
+    		</c:forEach>

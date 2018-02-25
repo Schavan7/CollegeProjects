@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<!-- saved from url=(0116)https://blackboard.iit.edu/bbcswebdav/pid-609825-dt-content-rid-9297158_1/courses/X9102258.201820/lab1-template.html -->
+<html lang="en" class="gr__blackboard_iit_edu"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+	<!-- Modify Title between these comments (Choose correct class number and substitute your username) -->
+	<title>ITMD 565 Lab 1 - Schavan7 - Simple Calculator</title>
+	<!-- Modify Title between these comments -->
+	<style type="text/css">
+		body {
+			background-color: #ddd;
+			font-family: sans-serif;
+		}
+		#main-container {
+			width: 750px;
+			background-color: white;
+			margin:0 auto;
+			text-align: center;
+			padding: 10px;
+		}
+		#calculator-wrapper #input-wrapper {
+			margin: 40px 0 20px;
+		}
+		#calculator-wrapper #input-wrapper label {
+			font-size: 18px;
+			margin: 0 4px;
+			font-style: italic;
+		}
+		#calculator-wrapper #input-wrapper input {
+			font-size: 20px;
+			padding: 4px;
+			border: 2px solid #bbb;
+			background-color: #eee;
+		}
+		#calculator-wrapper #button-wrapper {
+			margin: 20px 0;
+		}
+		#calculator-wrapper #button-wrapper button {
+			font-size: 20px;
+			margin: 0 5px;
+		}
+		#results {
+			margin: 20px;
+			background-color: #eee;
+			border: 2px solid #bbb;
+			font-size: 24px;
+			padding: 14px;
+			overflow-x: auto;
+			min-height: 25px;
+		}
+	</style>
+</head>
+<body data-gr-c-s-loaded="true">
+
+	<div id="main-container">
+		<!-- Modify headlines between these comments (Choose correct class number and substitute Name and Email) -->
+		<h1>ITMD 565 - Lab 1 - Simple Calculator</h1>
+		<h2>Shrija Chavan - schavan7@hawk.iit.edu</h2>
+		<!-- Modify headlines between these comments -->
+		<div id="calculator-wrapper">
+			<div id="input-wrapper">
+				<label>Value 1: <input type="text" name="val1" id="val1"></label>
+				<label>Value 2: <input type="text" name="val2" id="val2"></label>
+			</div>
+			<div id="button-wrapper">
+				<button id="addBtn" >Add</button>
+				<button id="subBtn">Subtract</button>
+				<button id="multBtn">Multiply</button>
+				<button id="divBtn">Divide</button>
+				<button id="resetBtn">Reset</button>
+			</div>
+			<div id="results"></div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+
+// Begin all JavaScript Code Here - Do not put JavaScript outside these comments.
+
+	var a;
+	var b;
+	
+
+//  Declared three common functions setValues, validate and resetResult to optimize the code and 
+//use the same function to execute the functionality of the calculator.
+
+	function setValues(){
+	 	a = document.getElementById('val1').value.trim();
+	 	b = document.getElementById('val2').value.trim();
+	}
+
+	 function validate(){
+		 if(a ==="" || b ===""){
+			alert('The values cannot be blank, please enter a number');
+			return false;
+		
+		 } else if ((isNaN(a)) || (isNaN(b))){
+			alert('Value 1 or Value 2 is not a number, please enter a valid number')
+			return false;
+		 } 
+		 return true;
+	 }
+
+	 function resetResult(){
+		var x = document.getElementById('results')
+		x.innerHTML = '';
+	 }
+	
+	// The add function will add the two values.
+	function add(){
+		resetResult();
+		setValues();
+		var validation = validate();
+		if(validation){
+			if (a !== '' && b !== ''){
+			var result = Number(a) + Number(b);
+			var x = document.getElementById('results')
+			x.innerHTML = result;
+		}
+		}
+		}
+
+	// The substract function will substract value 2 from Value 1.
+	function substract(){
+		resetResult();
+		setValues();
+		var validation = validate();
+		if (validation){
+			validate();
+		if (a != '' && b != ''){	
+			var result = Number(a) - Number(b);
+			var x = document.getElementById('results')
+			x.innerHTML = result;
+		}
+		}
+	}
+
+	// This multiply function will multiply the two values.
+	function multiply(){
+		resetResult();
+		setValues();
+		var validation = validate();
+		if (validation){
+			if (a != '' && b != ''){
+			var result = Number(a)*Number(b);
+			var x = document.getElementById('results')
+			x.innerHTML = result;
+		}
+		}		
+	}
+
+// Divide function will only be executed if value 2 in nonzero and is a number.
+	function divide(){
+		resetResult();
+		setValues();
+		var validation = validate();
+		if(validation){
+			if (b==0 ){	
+			alert('value 2 cannot be zero!, Please add a valid number')
+		}
+			if ((a != '' && b != '' &&  b != 0)){
+			var result = Number(a)/Number(b);
+			var x = document.getElementById('results')
+			x.innerHTML = result;
+		}
+		}
+		
+		}
+
+//reset function will clear all the fields
+	function reset(){
+		var x = document.getElementById('results')
+		x.innerHTML = '';
+		document.getElementById('val1').value = '';
+		document.getElementById('val2').value = '';
+	}
+
+document.getElementById('addBtn').addEventListener("click", add, false);
+document.getElementById('subBtn').addEventListener("click", substract, false);		
+document.getElementById('multBtn').addEventListener("click", multiply, false);
+document.getElementById('divBtn').addEventListener("click", divide, false);
+document.getElementById('resetBtn').addEventListener("click", reset, false);
+
+
+
+
+// End all JavaScript Code Here - Do not put JavaScript outside these comments.
+	</script>
+
+<script id="wappalyzer" src="chrome-extension://gppongmhjkpfnbhagpmjfkannfbllamg/js/inject.js"></script></body></html>

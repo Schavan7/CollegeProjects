@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<!-- saved from url=(0116)https://blackboard.iit.edu/bbcswebdav/pid-611685-dt-content-rid-9397022_1/courses/X9102258.201820/lab2_template.html -->
+<html lang="en" class="gr__blackboard_iit_edu">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+	<!-- Modify Title between these comments (Choose correct class number and substitute your username) -->
+	<title>ITMD 565 Lab 2 - Schavan7- DOM Manipulation</title>
+	<!-- Modify Title between these comments -->
+	<style type="text/css">
+		body {
+			background-color: #ccc;
+			font-family: sans-serif;
+		}
+
+		label {
+			width: 100px;
+			display: inline-block;
+			margin: 5px 0;
+		}
+
+		input {
+			display: inline-block;
+			margin: 5px 0;
+		}
+
+		button {
+			display: inline-block;
+			margin: 20px 10px 20px 0;
+		}
+
+		#wrapper {
+			background-color: #fff;
+			max-width: 800px;
+			margin: 0 auto;
+			padding: 20px 40px;
+		}
+
+		#resultsWrapper .result {
+			border: 4px solid red;
+			padding: 10px;
+			margin: 10px 0;
+		}
+
+		#resultsWrapper .red {
+			border-color: red;
+		}
+
+		#resultsWrapper .red h2 {
+			color: red;
+		}
+
+		#resultsWrapper .green {
+			border-color: green;
+		}
+
+		#resultsWrapper .green h2 {
+			color: green;
+		}
+
+		#resultsWrapper .blue {
+			border-color: blue;
+		}
+
+		#resultsWrapper .blue h2 {
+			color: blue;
+		}
+
+		/* You may add additional CSS below this comment if you feel necessary */
+
+		#runBtn {
+			background-color: #1023e3;
+			color: white;
+			padding: 10px 10px;
+			text-align: center;
+			font-size: 14px;
+		}
+
+		#resetBtn {
+			background-color: #f44336;
+			color: white;
+			padding: 10px 10px;
+			text-align: center;
+			font-size: 14px;
+		}
+
+		.disabled {
+			opacity: 0.6;
+		}
+		
+	</style>
+</head>
+
+<body data-gr-c-s-loaded="true">
+	<div id="wrapper">
+		<!-- Modify headlines between these comments (Choose correct class number and substitute Name and Email) -->
+		<h1>ITMD 565 - Lab 2 - DOM Manipulation</h1>
+		<h2> Shrija Chavan - schavan7@hawk.iit.edu</h2>
+		<!-- Modify headlines between these comments -->
+		<label for="bodyInput">Body Text: </label>
+		<input id="bodyInput" type="text">
+		<br>
+		<label for="qtyInput">Quantity: </label>
+		<input id="qtyInput" type="text">
+		<br>
+		<label for="colorInput">Color: </label>
+		<select id="colorInput">
+			<option value="red">Red</option>
+			<option value="green">Green</option>
+			<option value="blue">Blue</option>
+		</select>
+		<br>
+
+		<button id="runBtn">Run Lab</button>
+		<button id="resetBtn">Reset Lab</button>
+
+		<h2>Results</h2>
+		<div id="resultsWrapper"></div>
+	</div>
+
+
+	<script type="text/javascript">
+		//Begin JavaScript Code Here - Do not put JavaScript outside these comments.
+
+		//The first line disbales the reset button when the page loads as the results section will be empty.
+		var btn = document.getElementById('resetBtn');
+		btn.disabled = true;
+		btn.classList.add('disabled');
+
+		//Declaring the Variables
+		var inputData;
+		var quantity;
+		var color;
+		var mainContainer = document.getElementById('resultsWrapper');
+
+		//This function will set all the values.
+		function setValues() {
+			inputData = document.getElementById('bodyInput').value.trim();
+			quantity = document.getElementById('qtyInput').value.trim();
+			color = document.getElementById('colorInput').value;
+		}
+
+		// The repeat method will create the div in the results section and check the reset buttons functionality
+		function repeat() {
+			mainContainer.innerHTML = "";
+			setValues();
+			var validation = validate();
+			if (validation) {
+				for (var i = 1; i <= quantity; i++) {
+					createDiv(i);
+				}
+			}
+			if (mainContainer.hasChildNodes()) {
+				btn.disabled = false;
+				btn.classList.remove('disabled');
+			}
+			else {
+				btn.disabled = true;
+				btn.classList.add('disabled');
+			}
+		}
+
+		// create function will create divs in the results section and append all the chid nodes.
+		function createDiv(i) {
+			var div = document.createElement('div');
+			div.classList.add(color);
+			div.classList.add('result');
+			var h2 = document.createElement('h2');
+			var h2Text = document.createTextNode('OUTPUT ' + i);
+			var para = document.createElement('p');
+			var ParatText = document.createTextNode(inputData);
+			h2.appendChild(h2Text);
+			para.appendChild(ParatText);
+			div.appendChild(h2);
+			div.appendChild(para);
+			mainContainer.appendChild(div);
+		}
+
+		//Validate function will validate the Body text and qty fields for the correct data and will not allow the user to proceed further
+		// in case they enter invalid data.
+
+		function validate() {
+			if (inputData === "") {
+				alert('The Body text cannot be blank, please enter some data')
+				return false;
+			} else if ((isNaN(quantity))) {
+				alert('Quantity entered is not a number, please enter a valid number')
+				return false;
+			}
+			else if (Number(quantity) === 0) {
+				alert('Quantity cannote be zero, please enter a positive number');
+				return false;
+			}
+			else if (Number(quantity) < 0) {
+				alert('Quantity entered is a negative number, please enter a positive number');
+			}
+			return true;
+		}
+
+
+		//reset function resets the text and quantity fields and also sets the color to index 0(red) as default.
+		function reset() {
+			document.getElementById('bodyInput').value = '';
+			document.getElementById('qtyInput').value = '';
+			document.getElementById('colorInput').selectedIndex = 0;
+			mainContainer.innerHTML = "";
+			btn.disabled = true;
+			btn.classList.add('disabled');
+		}
+
+		document.getElementById('runBtn').addEventListener('click', repeat, false);
+		document.getElementById('resetBtn').addEventListener('click', reset, false);
+
+		// End JavaScript Code Here - Do not put JavaScript outside these comments.
+	</script>
+
+
+
+	<script id="wappalyzer" src="chrome-extension://gppongmhjkpfnbhagpmjfkannfbllamg/js/inject.js"></script>
+</body>
+
+</html>

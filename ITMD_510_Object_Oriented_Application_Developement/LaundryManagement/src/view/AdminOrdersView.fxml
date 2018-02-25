@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.AdminOrdersController">
+   <children>
+      <TableView fx:id="ordersTable" layoutX="9.0" layoutY="72.0" prefHeight="304.0" prefWidth="583.0" stylesheets="@application.css">
+         <columns>
+            <TableColumn fx:id="userId" prefWidth="75.0" text="User ID" />
+            <TableColumn fx:id="status" prefWidth="89.0" text="Status" />
+            <TableColumn fx:id="total" minWidth="9.0" prefWidth="117.0" text="Total Price" />
+            <TableColumn fx:id="orderPickupDate" prefWidth="141.0" text="Order Pickup Date" />
+            <TableColumn fx:id="orderCreatedDate" prefWidth="147.0" text="Order Date" />
+         </columns>
+      </TableView>
+      <Hyperlink fx:id="btnadminordersview" layoutX="529.0" layoutY="2.0" onAction="#redirectlogin" text="Log Out">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Hyperlink>
+      <Hyperlink fx:id="btnadminordersview" layoutX="465.0" layoutY="2.0" onAction="#redirectHome" text="Home">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Hyperlink>
+   </children>
+</AnchorPane>

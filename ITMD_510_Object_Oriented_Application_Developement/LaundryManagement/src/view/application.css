@@ -1,0 +1,220 @@
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
+.root{
+	-fx-background-color:#f4feff;
+}
+#anchorLogin{
+	-fx-border-color:lightgrey ;
+	-fx-background-color:#f4feff;
+	-fx-text-fill: black;
+	-fx-border-width:200%;
+	-fx-padding: 8px 4px 8px 10px;
+}
+#btnLogin{
+	-fx-border-width:100%;
+	-fx-padding: 8px 5px;
+	-fx-background-color:#6FD2E5;
+	-fx-font-weight:bold;
+	-fx-font-size:15px;
+	-fx-font-family:Times;
+}
+#labelLogin{
+	-fx-font-weight:bold;
+	-fx-font-size:25px;
+	-fx-font-family:Times;
+}
+#hlCrateAccount{
+	-fx-border-width:100%;
+	-fx-padding: 8px 5px;
+	-fx-background-color:#6FD2E5;
+	-fx-font-weight:bold;
+	-fx-font-size:15px;
+	-fx-font-family:Times;
+}
+
+#anchorService{
+	-fx-background-color:#f4feff;
+}
+
+#btnservice{
+	-fx-border-width:100%;
+	-fx-padding: 8px 5px;
+	-fx-background-color:#6FD2E5;
+	-fx-font-weight:bold;
+	-fx-font-size:15px;
+	-fx-font-family:Times;
+}
+#gridservice{
+	-fx-border-width:200%;
+}
+#labelservice{
+	-fx-font-weight:bold;
+	-fx-font-size:15px;
+	-fx-font-family:Times;
+}
+#cartItemTable{
+	-fx-border-color:lightgrey;
+	-fx-border-width:200%;
+}
+#logoutService{
+	-fx-font-size:15px;
+	-fx-font-family:Times;
+	-fx-font-weight:bold;
+}
+#btnAdmincustomerview{
+	-fx-font-size:15px;
+	-fx-font-family:Times;
+	-fx-font-weight:bold;
+}
+#customersTable{
+	-fx-border-color:lightgrey;
+	-fx-border-width:200%;
+}
+#btnadmindashview{
+	-fx-border-color:lightgrey;
+	-fx-border-width:200%;
+}
+#logoutadmindashview{
+	-fx-font-size:15px;
+	-fx-font-family:Times;
+	-fx-font-weight:bold;
+}
+#labeladmindashview{
+	-fx-font-weight:bold;
+	-fx-font-family:Times;
+	-fx-font-size:15px;
+}
+
+#btnadminordersview{
+	-fx-font-size:15px;
+	-fx-font-family:Times;
+	-fx-font-weight:bold;
+}
+#ordersTable{
+	-fx-border-color:lightgrey;
+	-fx-border-width:200%;
+}
+#gridPanecheckout{
+	-fx-text-fill: black;
+	-fx-border-width:200%;
+	-fx-padding: 8px 4px 8px 10px;
+	-fx-font-family:Times;
+	-fx-font-size:15px;
+}
+#btnplaceorder{
+	-fx-border-width:100%;
+	-fx-padding: 8px 5px;
+	-fx-background-color:#6FD2E5;
+	-fx-font-weight:bold;
+	-fx-font-size:15px;
+	-fx-font-family:Times;
+}
+#logoutcheckoutView{
+	-fx-font-size:15px;
+	-fx-font-family:Times;
+}
+
+#logoutcheckout,#addressLbl,#errorMessage,#cartLink{
+	-fx-font-weight:bold;
+}
+
+#labelorderconfview{
+	-fx-font-weight:bold;
+	-fx-font-family:Times;
+	-fx-font-size:15px;
+}
+#btnorderconfview{
+	-fx-font-size:15px;
+	-fx-font-family:Times;
+	-fx-font-weight:bold;
+}
+
+#gridpaneRegistration{
+	-fx-text-fill: black;
+	-fx-border-width:100%;
+	-fx-padding: 8px 4px 8px 10px;
+	-fx-font-family:Times;
+	-fx-font-size:15px;
+}
+#labelRegistration{
+	-fx-font-weight:bold;
+	-fx-font-family:Times;
+	-fx-font-size:25px;
+}
+
+#btnRegistration{
+	-fx-font-size:15px;
+	-fx-font-family:Times;
+	-fx-font-weight:bold;
+	-fx-background-color:#6FD2E5;
+}
+#labelrootlayout{
+	-fx-font-size:30px;
+	-fx-font-family:Times;
+	-fx-font-weight:bold;
+}
+#gridpaneserviceedit{
+	-fx-text-fill: black;
+	-fx-border-width:200%;
+	-fx-padding: 8px 4px 8px 10px;
+	-fx-font-family:Times;
+	-fx-font-size:15px;
+}
+#btnserviceEdit{
+		-fx-font-size:15px;
+	-fx-font-family:Times;
+	-fx-font-weight:bold;
+	-fx-background-color:#6FD2E5;
+}
+#Anchor1serviceitem{
+	-fx-background-color:#f4feff;
+	-fx-font-size:15px;
+	-fx-font-family:Times;
+	-fx-font-weight:bold;
+}
+#btnserviceitem{
+	-fx-font-size:15px;
+	-fx-font-family:Times;
+	-fx-font-weight:bold;
+	-fx-background-color:#6FD2E5;
+}
+#labelanchor1serviceitem{
+	-fx-font-size:20px;
+	-fx-font-family:Times;
+	-fx-font-weight:bold;
+}
+#hyperserviceItem{
+	-fx-font-size:15px;
+	-fx-font-family:Times;
+	-fx-font-weight:bold;
+}
+#serviceItemTable{
+		-fx-background-color:#f4feff;
+	-fx-font-size:15px;
+	-fx-font-family:Times;
+	-fx-font-weight:bold;
+}
+
+#serviceTypeLabel,#serviceItemLabel,#quantityLabel,#carTaxLabel,#cartSubTotal,#cartTotalLbl,#cartpriceLabel{
+	-fx-font-weight:bold;
+}
+
+#serviceConfigBtn { 
+    -fx-background-image: url('../img/serviceConf.jpeg');
+    -fx-background-size: 100%;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: 90%;
+}
+
+#ordersBtn { 
+    -fx-background-image: url('../img/ordersTab.png');
+    -fx-background-size: 100%;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: 90%;
+}
+#customersBtn { 
+    -fx-background-image: url('../img/customerTab.jpeg');
+    -fx-background-size: 100%;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: 90%;
+}

@@ -1,0 +1,73 @@
+1.USER table--
+
+CREATE TABLE USER(
+  user_id INTEGER  NOT NULL PRIMARY KEY,
+  FirstName  VARCHAR(10) NOT NULL,
+  LastName   VARCHAR(10) NOT NULL,
+  ZipCode    INTEGER  NOT NULL,
+  City       VARCHAR(20) NOT NULL,
+  State      VARCHAR(3) NOT NULL,
+  
+  email      VARCHAR(26) NOT NULL,
+  dept_id        INTEGER NOT NULL,
+  username        VARCHAR(11) NOT NULL,
+  password        VARCHAR(11) NOT NULL,
+  phone INTEGER,
+  FOREIGN KEY (dept_id) REFERENCES Department(dept_id)
+);
+
+--2.Department Table:
+
+CREATE TABLE Department(
+   dept_id INTEGER  NOT NULL PRIMARY KEY 
+  ,dept_name          VARCHAR(17) NOT NULL
+);
+
+Course Table:
+
+--3.CREATE TABLE Course(
+   course_id     INTEGER  NOT NULL PRIMARY KEY 
+  ,course_name   VARCHAR(26) NOT NULL
+  ,dept_id INTEGER  NOT NULL
+  ,FOREIGN KEY (dept_id) REFERENCES Department(dept_id));
+
+
+Class Table:
+
+--4.CREATE TABLE Class(
+   class_id   INTEGER  NOT NULL PRIMARY KEY 
+  ,user_id INTEGER  NOT NULL
+  ,course_id  INTEGER  NOT NULL
+  ,capacity   INTEGER  NOT NULL
+  ,FOREIGN KEY (user_id) REFERENCES USER(user_id)
+  ,FOREIGN KEY (course_id) REFERENCES Course(course_id)
+);
+
+--GRADE TABLE:
+
+5.CREATE TABLE Grade(
+session_id INTEGER NOT NULL PRIMARY KEY
+,grade NUMERIC(4,2) NOT NULL
+,user_id INTEGER  NOT NULL
+ ,class_id   INTEGER  NOT NULL
+ ,FOREIGN KEY (user_id) REFERENCES USER(user_id)
+ ,FOREIGN KEY (class_id) REFERENCES Class(class_id)
+);
+
+6.Admin TABLE:
+
+CREATE TABLE Admin(
+admin_id INTEGER NOT NULL PRIMARY KEY
+,admin_name VARCHAR(26) NOT NULL
+,admin_password VARCHAR(26) NOT NULL
+);
+
+
+
+
+
+
+
+
+
+

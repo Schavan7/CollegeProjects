@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="427.0" prefWidth="700.0" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.AdminServiceItemController">
+   <children>
+      <SplitPane dividerPositions="0.29797979797979796" layoutX="170.0" layoutY="38.0" prefHeight="300.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="411.0" prefWidth="200.0">
+               <children>
+                  <TableView fx:id="serviceItemTable" layoutX="-26.0" layoutY="14.0" prefHeight="298.0" prefWidth="174.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <columns>
+                      <TableColumn fx:id="serviceNameColumn" prefWidth="104.0" text="Service Name" />
+                      <TableColumn fx:id="priceColumn" prefWidth="84.0" text="price" />
+                    </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                  </TableView>
+               </children>
+            </AnchorPane>
+          <AnchorPane fx:id="Anchor1serviceitem" minHeight="0.0" minWidth="0.0" prefHeight="426.0" prefWidth="505.0" stylesheets="@application.css">
+               <children>
+                  <Label fx:id="labelanchor1serviceitem" layoutX="97.0" layoutY="37.0" text="Service Details">
+                     <font>
+                        <Font size="16.0" />
+                     </font></Label>
+                  <GridPane layoutX="50.0" layoutY="88.0" prefHeight="105.0" prefWidth="399.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="196.0" minWidth="10.0" prefWidth="193.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="211.0" minWidth="10.0" prefWidth="206.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label text="Price" GridPane.rowIndex="2" />
+                        <Label text="Service Name" GridPane.rowIndex="1" />
+                        <Label fx:id="serviceNameLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label fx:id="priceLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Label text="Service Type" />
+                        <Label fx:id="serviceTypeLabel" text="Label" GridPane.columnIndex="1" />
+                     </children>
+                  </GridPane>
+                  <Hyperlink fx:id="hyperserviceItem" layoutX="417.0" layoutY="1.0" onAction="#redirectlogin" text="Log Out">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Hyperlink>
+                  <Hyperlink fx:id="hyperserviceItem" layoutX="363.0" layoutY="1.0" onAction="#redirectHome" prefHeight="26.0" prefWidth="63.0" text="Home">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Hyperlink>
+                  <Button fx:id="btnserviceitem" layoutX="57.0" layoutY="233.0" mnemonicParsing="false" onAction="#handleNewServiceItem" prefHeight="26.0" prefWidth="64.0" text="Add">
+                     <padding>
+                        <Insets bottom="2.0" left="4.0" right="4.0" top="2.0" />
+                     </padding>
+                  </Button>
+                  <Button fx:id="btnserviceitem" layoutX="144.0" layoutY="233.0" mnemonicParsing="false" onAction="#handleEditServiceItem" prefHeight="26.0" prefWidth="64.0" text="Edit">
+                     <padding>
+                        <Insets bottom="2.0" left="4.0" right="4.0" top="2.0" />
+                     </padding>
+                  </Button>
+                  <Button fx:id="btnserviceitem" layoutX="228.0" layoutY="233.0" mnemonicParsing="false" onAction="#handleDeleteServiceItem" prefHeight="26.0" prefWidth="63.0" text="Delete">
+                     <padding>
+                        <Insets bottom="2.0" left="4.0" right="4.0" top="2.0" />
+                     </padding>
+                  </Button>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

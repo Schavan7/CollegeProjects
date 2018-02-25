@@ -1,0 +1,1051 @@
+
+sudo apt-get update
+sudo add-apt-repository ppa:openjdk-r/ppa
+sudo apt-get update
+sudo apt-get install openjdk-8-jdk
+
+MAP-https://www.meta-chart.com/bar#/display
+
+vim /vagrant_data/.bashrc
+
+vi ~/.bashrc 
+
+ssh-keygen
+
+cd ~/.ssh
+cat id_rsa.pub >> authorized_keys 
+
+sudo apt-get install git
+
+
+git clone https://github.com/tomwhite/hadoop-book.git
+wget http://apache.claz.org/hadoop/common/hadoop-2.5.2/hadoop-2.5.2.tar.gz 
+
+tar -xvf hadoop-2.5.2.tar.gz
+
+
+cp  -r /vagrant_data/hadoop  hadoop-2.5.2/etc/
+
+
+hdfs namenode -format
+
+start-dfs.sh
+start-yarn.sh
+mr-jobhistory-daemon.sh start historyserver
+
+hdfs dfsadmin -report
+
+
+hadoop fs -mkdir -p /user/$USER/tempdata/
+
+cd /vagrant_data
+hadoop fs -copyFromLocal ./1990 /user/$USER/tempdata/
+
+
+cd ~/hadoop-book/ch02-mr-intro/src/main/java/
+
+hadoop com.sun.tools.javac.Main *.java
+
+jar cf mt.jar MaxTemperature*.class
+
+
+
+/home/vagrant/hadoop-book/ch02-mr-intro/src/main/java      /vagrant_data/weather_data/1990.gz
+
+hadoop jar minMax.jar MinMaxTemperature /user/$USER/MinMax/1990.gz /user/$USER/output/MinMax/1990/1
+
+
+hadoop jar mt.jar MaxTemperature /user/$USER/tempdata/1990 /user/$USER/output
+
+hadoop fs -cat /user/$USER/output/part-r-00000
+
+hadoop fs -rm -r /user/$USER/output
+
+MALFORED
+
+hadoop jar station.jar StationMalformed /user/$USER/Malformed/1990.gz /user/$USER/output/Malformed/1990/1
+
+
+
+
+hdfs namenode -format
+start-dfs.sh	
+start-yarn.sh
+mr-jobhistory-daemon.sh start historyserver
+
+
+stop-dfs.sh
+stop-yarn.sh
+mr-jobhistory-daemon.sh stop historyserver
+
+
+
+
+
+
+
+
+wordCount
+
+
+hadoop fs -mkdir -p /user/$USER/wordcount/input
+
+hadoop com.sun.tools.javac.Main WordCount.java
+
+jar cf wc.jar WordCount*.class
+
+hadoop fs -rm -r /user/$USER/wordcount/output
+
+hadoop jar wc.jar WordCount /user/$USER/wordcount/input /user/$USER/wordcount/output
+
+hadoop fs -cat /user/$USER/wordcount/output/part-r-00000
+
+
+word count2
+hadoop com.sun.tools.javac.Main WordCount2.java
+
+jar cf wc2.jar WordCount2*.class
+
+hadoop fs -rm -r /user/$USER/wordcount/output
+
+hadoop jar wc2.jar WordCount2 /user/$USER/wordcount/input /user/$USER/wordcount/output
+
+
+hadoop jar wc2.jar WordCount2 -Dwordcount.case.sensitive=true /user/$USER/wordcount/input /user/$USER/wordcount/output -skip /user/$USER/wordcount/pattern.txt
+
+
+hadoop fs -rm -r /user/$USER/output
+
+
+
+-----------------------------------------------------------
+
+week-07
+
+ssh schavan7@64.131.111.40 -i ~/Desktop/week-07_521/schavan7 
+
+ssh schavan7@64.131.111.35 -i ~/Desktop/schavan7
+
+hadoop fs -ls /user/root/ncdc
+nohup hadoop jar mt.jar MaxTemperature /user/root/ncdc/1990/1990.txt /user/$USER/output/1990/1 > ~/user/$USER/cmd/1990/1.txt &
+
+nohup hadoop jar mt.jar MaxTemperatureWithCombiner /user/root/ncdc/90and92/1990and1992.txt /user/$USER/output/item2/1990and1992/1 > ~/user/$USER/cmd/item2/1990and1992/1.txt &
+
+ps -ef | grep "20740"
+
+mkdir -p ~/user/$USER/cmd/item2/1990-1993
+
+cd user/schavan7/cmd/item3/compressed/
+
+OUTPUT
+hadoop fs -cat /user/$USER/output/1990/1/part-r-00000
+hadoop fs -ls /user/$USER/output/1990/1/part-r-00000
+
+ITEM 1:
+
+Max Temperature
+
+mkdir -p ~/user/$USER/cmd/item1/1990
+mkdir -p ~/user/$USER/cmd/item1/1990and1992
+mkdir -p ~/user/$USER/cmd/item1/1990-1993
+
+hadoop fs -ls /user/$USER/output/
+
+nohup hadoop jar mt.jar MaxTemperature /user/root/ncdc/1990/  /user/$USER/output/item1/1990/1  > ~/user/$USER/cmd/item1/1990/1.txt &
+
+job_1488988448355_2466
+
+
+nohup hadoop jar mt.jar MaxTemperature /user/root/ncdc/90and92/  /user/$USER/output/item1/1990and1992/1  > ~/user/$USER/cmd/item1/1990and1992/1.txt & 
+job_1488988448355_2468
+
+
+nohup hadoop jar mt.jar MaxTemperature /user/root/ncdc/90-93/  /user/$USER/output/item1/1990-1993/1  > ~/user/$USER/cmd/item1/1990-1993/1.txt &
+
+job_1488988448355_2471
+-------------------------------------------
+
+ITEM 2 - run from here
+Max Temperature with combiner
+
+mkdir -p ~/user/$USER/cmd/item2/1990
+mkdir -p ~/user/$USER/cmd/item2/1990and1992
+mkdir -p ~/user/$USER/cmd/item2/1990-1993
+
+
+nohup hadoop jar mt.jar MaxTemperatureWithCombiner /user/root/ncdc/1990/  /user/$USER/output/item2/1990/1  > ~/user/$USER/cmd/item2/1990/1.txt &
+job_1488988448355_2624
+
+nohup hadoop jar mt.jar MaxTemperatureWithCombiner /user/root/ncdc/90and92/  /user/$USER/output/item2/1990and1992/1  > ~/user/$USER/cmd/item2/1990and1992/1.txt & 
+job_1488988448355_2625
+
+nohup hadoop jar mt.jar MaxTemperatureWithCombiner /user/root/ncdc/90-93/  /user/$USER/output/item2/1990-1993/1  > ~/user/$USER/cmd/item2/1990-1993/1.txt &
+job_1488988448355_2628
+---------------------------------
+
+item 3
+MaxTemperature
+mkdir -p ~/user/$USER/cmd/item3/compressed/1990
+mkdir -p ~/user/$USER/cmd/item3/compressed/1990and1992
+mkdir -p ~/user/$USER/cmd/item3/compressed/1990-1993
+
+mkdir -p ~/user/$USER/cmd/item3/gzipCompressed/1990
+mkdir -p ~/user/$USER/cmd/item3/gzipCompressed/1990and1992
+mkdir -p ~/user/$USER/cmd/item3/gzipCompressed/1990-1993
+
+mkdir -p ~/user/$USER/cmd/item3/bzip2Compressed/1990
+mkdir -p ~/user/$USER/cmd/item3/bzip2Compressed/1990and1992
+mkdir -p ~/user/$USER/cmd/item3/bzip2Compressed/1990-1993
+
+
+compressed:
+nohup hadoop jar mt.jar MaxTemperature /user/root/ncdc/1990/1990.txt /user/$USER/output/item3/compressed/1990/4 > ~/user/$USER/cmd/item3/compressed/1990/4.txt &
+job_1488988448355_2983
+
+
+
+nohup hadoop jar mt.jar MaxTemperature /user/root/ncdc/90and92/1990and1992.txt /user/$USER/output/item3/compressed/1990and1992/4 > ~/user/$USER/cmd/item3/compressed/1990and1992/4.txt &
+job_1488988448355_2984
+
+
+nohup hadoop jar mt.jar MaxTemperature /user/root/ncdc/90-93/90919293.txt /user/$USER/output/item3/compressed/1990-1993/4 > ~/user/$USER/cmd/item3/compressed/1990-1993/4.txt &
+job_1488988448355_2985
+
+
+
+
+gzcompressed:
+
+nohup hadoop jar mt.jar MaxTemperature /user/root/ncdc/1990/1990.txt.gz /user/$USER/output/item3/gzipCompressed/1990/4 > ~/user/$USER/cmd/item3/gzipCompressed/1990/4.txt &
+job_1488988448355_2986
+
+
+
+nohup hadoop jar mt.jar MaxTemperature /user/root/ncdc/90and92/1990and1992.txt.gz /user/$USER/output/item3/gzipCompressed/1990and1992/4 > ~/user/$USER/cmd/item3/gzipCompressed/1990and1992/4.txt &
+application_1488988448355_2987
+
+
+nohup hadoop jar mt.jar MaxTemperature /user/root/ncdc/90-93/90919293.txt.gz /user/$USER/output/item3/gzipCompressed/1990-1993/4 > ~/user/$USER/cmd/item3/gzipCompressed/1990-1993/4.txt &
+job_1488988448355_2988
+
+
+
+bz2compressed: 
+nohup hadoop jar mt.jar MaxTemperature /user/root/ncdc/1990/1990.txt.bz2 /user/$USER/output/item3/bzip2Compressed/1990/4 > ~/user/$USER/cmd/item3/bzip2Compressed/1990/4.txt &
+job_1488988448355_2989
+
+
+
+nohup hadoop jar mt.jar MaxTemperature /user/root/ncdc/90and92/1990and1992.txt.bz2 /user/$USER/output/item3/bzip2Compressed/1990and1992/4 > ~/user/$USER/cmd/item3/bzip2Compressed/1990and1992/4.txt &
+job_1488988448355_2990
+
+
+nohup hadoop jar mt.jar MaxTemperature /user/root/ncdc/90-93/90919293.txt.bz2 /user/$USER/output/item3/bzip2Compressed/1990-1993/4 > ~/user/$USER/cmd/item3/bzip2Compressed/1990-1993/4.txt &
+job_1488988448355_2991
+
+
+
+
+item 3 :MaxTemperature WithCombiner:
+
+mkdir -p ~/user/$USER/cmd/item3/withCombiner/compressed/1990
+mkdir -p ~/user/$USER/cmd/item3/withCombiner/compressed/1990and1992
+mkdir -p ~/user/$USER/cmd/item3/withCombiner/compressed/1990-1993
+
+mkdir -p ~/user/$USER/cmd/item3/withCombiner/gzipCompressed/1990
+mkdir -p ~/user/$USER/cmd/item3/withCombiner/gzipCompressed/1990and1992
+mkdir -p ~/user/$USER/cmd/item3/withCombiner/gzipCompressed/1990-1993
+
+mkdir -p ~/user/$USER/cmd/item3/withCombiner/bzip2Compressed/1990
+mkdir -p ~/user/$USER/cmd/item3/withCombiner/bzip2Compressed/1990and1992
+mkdir -p ~/user/$USER/cmd/item3/withCombiner/bzip2Compressed/1990-1993
+
+
+
+Text:
+nohup hadoop jar mt.jar MaxTemperatureWithCombiner /user/root/ncdc/1990/1990.txt /user/$USER/output/item3/withCombiner/compressed/1990/1 > ~/user/$USER/cmd/item3/withCombiner/compressed/1990/1.txt &
+job_1488988448355_2646
+
+nohup hadoop jar mt.jar MaxTemperatureWithCombiner /user/root/ncdc/90and92/1990and1992.txt /user/$USER/output/item3/withCombiner/compressed/1990and1992/1 > ~/user/$USER/cmd/item3/withCombiner/compressed/1990and1992/1.txt &
+job_1488988448355_2647
+
+
+nohup hadoop jar mt.jar MaxTemperatureWithCombiner /user/root/ncdc/90-93/90919293.txt /user/$USER/output/item3/withCombiner/compressed/1990-1993/1 > ~/user/$USER/cmd/item3/withCombiner/compressed/1990-1993/1.txt &
+job_1488988448355_2648
+
+
+
+gzcompressed:
+
+nohup hadoop jar mt.jar MaxTemperatureWithCombiner /user/root/ncdc/1990/1990.txt.gz /user/$USER/output/item3/withCombiner/gzipCompressed/1990/2 > ~/user/$USER/cmd/item3/withCombiner/gzipCompressed/1990/2.txt &
+job_1488988448355_2640
+
+
+nohup hadoop jar mt.jar MaxTemperatureWithCombiner /user/root/ncdc/90and92/1990and1992.txt.gz /user/$USER/output/item3/withCombiner/gzipCompressed/1990and1992/1 > ~/user/$USER/cmd/item3/withCombiner/gzipCompressed/1990and1992/1.txt &
+job_1488988448355_2641
+
+
+nohup hadoop jar mt.jar MaxTemperatureWithCombiner /user/root/ncdc/90-93/90919293.txt.gz /user/$USER/output/item3/withCombiner/gzipCompressed/1990-1993/1 > ~/user/$USER/cmd/item3/withCombiner/gzipCompressed/1990-1993/1.txt &
+job_1488988448355_2642
+
+
+
+bz2compressed:
+
+nohup hadoop jar mt.jar MaxTemperatureWithCombiner /user/root/ncdc/1990/1990.txt.bz2 /user/$USER/output/item3/withCombiner/bzip2Compressed/1990/1 > ~/user/$USER/cmd/item3/withCombiner/bzip2Compressed/1990/1.txt &
+job_1488988448355_2643
+
+
+
+nohup hadoop jar mt.jar MaxTemperatureWithCombiner /user/root/ncdc/90and92/1990and1992.txt.bz2 /user/$USER/output/item3/withCombiner/bzip2Compressed/1990and1992/1 > ~/user/$USER/cmd/item3/withCombiner/bzip2Compressed/1990and1992/1.txt &
+job_1488988448355_2644
+
+
+
+nohup hadoop jar mt.jar MaxTemperatureWithCombiner /user/root/ncdc/90-93/90919293.txt.bz2 /user/$USER/output/item3/withCombiner/bzip2Compressed/1990-1993/1 > ~/user/$USER/cmd/item3/withCombiner/bzip2Compressed/1990-1993/1.txt &
+job_1488988448355_2645
+
+
+
+------------------------------------
+ITEM 4
+
+mkdir -p ~/user/$USER/cmd/item4/text/1990
+mkdir -p ~/user/$USER/cmd/item4/text/1990and1992
+mkdir -p ~/user/$USER/cmd/item4/text/1990-1993
+
+mkdir -p ~/user/$USER/cmd/item4/gzipCompressed/1990
+mkdir -p ~/user/$USER/cmd/item4/gzipCompressed/1990and1992
+mkdir -p ~/user/$USER/cmd/item4/gzipCompressed/1990-1993
+
+mkdir -p ~/user/$USER/cmd/item4/bzip2Compressed/1990
+mkdir -p ~/user/$USER/cmd/item4/bzip2Compressed/1990and1992
+mkdir -p ~/user/$USER/cmd/item4/bzip2Compressed/1990-1993
+
+
+text:
+nohup hadoop jar mt.jar MaxTempCustom /user/root/ncdc/1990/1990.txt /user/$USER/output/item4/text/1990/1 > ~/user/$USER/cmd/item4/text/1990/1.txt &
+job_1488988448355_2965
+
+
+nohup hadoop jar mt.jar MaxTempCustom /user/root/ncdc/90and92/1990and1992.txt /user/$USER/output/item4/text/1990and1992/1 > ~/user/$USER/cmd/item4/text/1990and1992/1.txt &
+job_1488988448355_2966
+
+
+nohup hadoop jar mt.jar MaxTempCustom /user/root/ncdc/90-93/90919293.txt /user/$USER/output/item4/text/1990-1993/1 > ~/user/$USER/cmd/item4/text/1990-1993/1.txt &
+job_1488988448355_2967
+
+
+gzcompressed:
+
+nohup hadoop jar mt.jar MaxTempCustom /user/root/ncdc/1990/1990.txt.gz /user/$USER/output/item4/gzipCompressed/1990/1 > ~/user/$USER/cmd/item4/gzipCompressed/1990/1.txt &
+job_1488988448355_2968
+
+
+nohup hadoop jar mt.jar MaxTempCustom /user/root/ncdc/90and92/1990and1992.txt.gz /user/$USER/output/item4/gzipCompressed/1990and1992/1 > ~/user/$USER/cmd/item4/gzipCompressed/1990and1992/1.txt &
+job_1488988448355_2969
+
+nohup hadoop jar mt.jar MaxTempCustom /user/root/ncdc/90-93/90919293.txt.gz /user/$USER/output/item4/gzipCompressed/1990-1993/1 > ~/user/$USER/cmd/item4/gzipCompressed/1990-1993/1.txt &
+job_1488988448355_2970
+
+
+bz2compressed: 
+
+nohup hadoop jar mt.jar MaxTempCustom /user/root/ncdc/1990/1990.txt.bz2 /user/$USER/output/item4/bzip2Compressed/1990/1 > ~/user/$USER/cmd/item4/bzip2Compressed/1990/1.txt &
+job_1488988448355_2971
+
+
+nohup hadoop jar mt.jar MaxTempCustom /user/root/ncdc/90and92/1990and1992.txt.bz2 /user/$USER/output/item4/bzip2Compressed/1990and1992/1 > ~/user/$USER/cmd/item4/bzip2Compressed/1990and1992/1.txt &
+job_1488988448355_2972
+
+nohup hadoop jar mt.jar MaxTempCustom /user/root/ncdc/90-93/90919293.txt.bz2 /user/$USER/output/item4/bzip2Compressed/1990-1993/1 > ~/user/$USER/cmd/item4/bzip2Compressed/1990-1993/1.txt &
+job_1488988448355_2973
+
+
+ITEM 5:
+
+mkdir -p ~/user/$USER/cmd/item5/text/1990
+mkdir -p ~/user/$USER/cmd/item5/text/1990and1992
+mkdir -p ~/user/$USER/cmd/item5/text/1990-1993
+
+mkdir -p ~/user/$USER/cmd/item5/gzipCompressed/1990
+mkdir -p ~/user/$USER/cmd/item5/gzipCompressed/1990and1992
+mkdir -p ~/user/$USER/cmd/item5/gzipCompressed/1990-1993
+
+mkdir -p ~/user/$USER/cmd/item5/bzip2Compressed/1990
+mkdir -p ~/user/$USER/cmd/item5/bzip2Compressed/1990and1992
+mkdir -p ~/user/$USER/cmd/item5/bzip2Compressed/1990-1993
+
+
+text:
+nohup hadoop jar mt.jar MaxTempCustom /user/root/ncdc/1990/1990.txt /user/$USER/output/item5/text/1990/1 > ~/user/$USER/cmd/item5/text/1990/1.txt &
+job_1488988448355_2974
+
+
+nohup hadoop jar mt.jar MaxTempCustom /user/root/ncdc/90and92/1990and1992.txt /user/$USER/output/item5/text/1990and1992/1 > ~/user/$USER/cmd/item5/text/1990and1992/1.txt &
+job_1488988448355_2975
+
+
+nohup hadoop jar mt.jar MaxTempCustom /user/root/ncdc/90-93/90919293.txt /user/$USER/output/item5/text/1990-1993/1 > ~/user/$USER/cmd/item5/text/1990-1993/1.txt &
+job_1488988448355_2976
+
+
+gzcompressed:
+
+nohup hadoop jar mt.jar MaxTempCustom /user/root/ncdc/1990/1990.txt.gz /user/$USER/output/item5/gzipCompressed/1990/1 > ~/user/$USER/cmd/item5/gzipCompressed/1990/1.txt &
+job_1488988448355_2977
+
+
+nohup hadoop jar mt.jar MaxTempCustom /user/root/ncdc/90and92/1990and1992.txt.gz /user/$USER/output/item5/gzipCompressed/1990and1992/1 > ~/user/$USER/cmd/item5/gzipCompressed/1990and1992/1.txt &
+job_1488988448355_2978
+
+nohup hadoop jar mt.jar MaxTempCustom /user/root/ncdc/90-93/90919293.txt.gz /user/$USER/output/item5/gzipCompressed/1990-1993/1 > ~/user/$USER/cmd/item5/gzipCompressed/1990-1993/1.txt &
+job_1488988448355_2979
+
+
+bz2compressed: 
+
+nohup hadoop jar mt.jar MaxTempCustom /user/root/ncdc/1990/1990.txt.bz2 /user/$USER/output/item5/bzip2Compressed/1990/1 > ~/user/$USER/cmd/item5/bzip2Compressed/1990/1.txt &
+job_1488988448355_2980
+
+
+nohup hadoop jar mt.jar MaxTempCustom /user/root/ncdc/90and92/1990and1992.txt.bz2 /user/$USER/output/item5/bzip2Compressed/1990and1992/1 > ~/user/$USER/cmd/item5/bzip2Compressed/1990and1992/1.txt &
+job_1488988448355_2981
+
+
+nohup hadoop jar mt.jar MaxTempCustom /user/root/ncdc/90-93/90919293.txt.bz2 /user/$USER/output/item5/bzip2Compressed/1990-1993/1 > ~/user/$USER/cmd/item5/bzip2Compressed/1990-1993/1.txt &
+job_1488988448355_2982
+
+
+ITEM6:
+
+mkdir -p ~/user/$USER/cmd/item6/90-93/text
+mkdir -p ~/user/$USER/cmd/item6/90-93/gzip
+mkdir -p ~/user/$USER/cmd/item6/90-93/bzip2
+
+nohup hadoop jar mtc.jar MaxTemperature /user/root/ncdc/90-93/90919293.txt /user/$USER/output/item6/90-93/text/1 > ~/user/$USER/cmd/item6/90-93/text/1.txt &
+job_1490156728471_1350
+
+
+nohup hadoop jar mtc.jar MaxTemperature /user/root/ncdc/90-93/90919293.txt.gz /user/$USER/output/item6/90-93/gzip/1 > ~/user/$USER/cmd/item6/90-93/gzip/1.txt &
+job_1490156728471_1352
+
+
+nohup hadoop jar mtc.jar MaxTemperature /user/root/ncdc/90-93/90919293.txt.bz2 /user/$USER/output/item6/90-93/bzip2/1 > ~/user/$USER/cmd/item6/90-93/bzip2/1.txt &
+job_1490156728471_1354
+
+
+
+mkdir -p ~/user/$USER/cmd/item6/chaining/90-93/text
+mkdir -p ~/user/$USER/cmd/item6/chaining/90-93/gzip
+mkdir -p ~/user/$USER/cmd/item6/chaining/90-93/bzip2
+
+** 1 & 2
+nohup hadoop jar mtc.jar MaxTempChaining /user/root/ncdc/90-93/90919293.txt /user/$USER/output/item6/chaining/90-93/text/2 > ~/user/$USER/cmd/item6/chaining/90-93/text/2.txt &
+job_1490156728471_1345
+job_1490156728471_1487
+
+nohup hadoop jar mtc.jar MaxTempChaining /user/root/ncdc/90-93/90919293.txt.gz /user/$USER/output/item6/chaining/90-93/gzip/1 > ~/user/$USER/cmd/item6/chaining/90-93/gzip/1.txt &
+job_1490156728471_1346
+
+nohup hadoop jar mtc.jar MaxTempChaining /user/root/ncdc/90-93/90919293.txt.bz2 /user/$USER/output/item6/chaining/90-93/bzip2/1 > ~/user/$USER/cmd/item6/chaining/90-93/bzip2/1.txt &
+job_1490156728471_1348
+
+
+
+--------------------------------------------
+Week -08
+
+Item1:
+
+WholeData
+
+mkdir -p ~/user/$USER/cmd/week-08/item1/wholedata/MaxTemp/90and92-256
+mkdir -p ~/user/$USER/cmd/week-08/item1/wholedata/MaxTemp/90-93-256
+
+mkdir -p ~/user/$USER/cmd/week-08/item1/wholedata/MaxTempWithCombiner/90and92-256
+mkdir -p ~/user/$USER/cmd/week-08/item1/wholedata/MaxTempWithCombiner/90-93-256
+
+
+With MaxTemperature
+nohup hadoop jar mt.jar MaxTemperature /user/root/ncdc/90and92-256/  /user/$USER/output/week-08/item1/wholedata/MaxTemp/90and92-256/1  > ~/user/$USER/cmd/week-08/item1/wholedata/MaxTemp/90and92-256/1.txt &
+
+job_1490156728471_0462
+
+
+nohup hadoop jar mt.jar MaxTemperature /user/root/ncdc/90-93-256/  /user/$USER/output/week-08/item1/wholedata/MaxTemp/90-93-256/1  > ~/user/$USER/cmd/week-08/item1/wholedata/MaxTemp/90-93-256/1.txt &
+job_1490156728471_0461
+
+
+MaxTemperatureWithCombiner:
+
+nohup hadoop jar mt.jar MaxTemperatureWithCombiner /user/root/ncdc/90and92-256/ /user/$USER/output/week-08/item1/wholedata/MaxTempWithCombiner/90and92-256/1  > ~/user/$USER/cmd/week-08/item1/wholedata/MaxTempWithCombiner/90and92-256/1.txt &
+
+job_1490156728471_0770
+
+nohup hadoop jar mt.jar MaxTemperatureWithCombiner /user/root/ncdc/90-93-256/  /user/$USER/output/week-08//item1/wholedata/MaxTempWithCombiner/90-93-256/1  > ~/user/$USER/cmd/week-08/item1/wholedata/MaxTempWithCombiner/90-93-256/1.txt &
+
+job_1490156728471_0771
+
+------------------
+ssh schavan7@64.131.111.35 -i ~/Desktop/schavan7
+
+cd /home/schavan7/hadoop-book/ch02-mr-intro/src/main/java
+
+MaxTemp:
+
+mkdir -p ~/user/$USER/cmd/week-08/item1/MaxTemp/90and92-256/text
+mkdir -p ~/user/$USER/cmd/week-08/item1/MaxTemp/90and92-256/gzip
+mkdir -p ~/user/$USER/cmd/week-08/item1/MaxTemp/90and92-256/bzip2
+
+mkdir -p ~/user/$USER/cmd/week-08/item1/MaxTemp/90-93-256/text
+mkdir -p ~/user/$USER/cmd/week-08/item1/MaxTemp/90-93-256/gzip
+mkdir -p ~/user/$USER/cmd/week-08/item1/MaxTemp/90-93-256/bzip2
+
+90and92-256 -Run from here
+
+nohup hadoop jar mt.jar MaxTemperature /user/root/ncdc/90and92-256/1990and1992.txt  /user/$USER/output/week-08/item1/MaxTemp/90and92-256/text/1  > ~/user/$USER/cmd/week-08/item1/MaxTemp/90and92-256/text/1.txt &
+job_1490156728471_1364
+
+nohup hadoop jar mt.jar MaxTemperature /user/root/ncdc/90and92-256/1990and1992.txt.gz  /user/$USER/output/week-08/item1/MaxTemp/90and92-256/gzip/1  > ~/user/$USER/cmd/week-08/item1/MaxTemp/90and92-256/gzip/1.txt &
+job_1490156728471_1365
+
+nohup hadoop jar mt.jar MaxTemperature /user/root/ncdc/90and92-256/1990and1992.txt.bz2  /user/$USER/output/week-08/item1/MaxTemp/90and92-256/bzip2/1  > ~/user/$USER/cmd/week-08/item1/MaxTemp/90and92-256/bzip2/1.txt &
+job_1490156728471_1366
+
+
+
+90-93-256
+
+nohup hadoop jar mt.jar MaxTemperature /user/root/ncdc/90-93-256/90919293.txt /user/$USER/output/week-08/item1/MaxTemp/90-93-256/text/1  > ~/user/$USER/cmd/week-08/item1/MaxTemp/90-93-256/text/1.txt &
+job_1490156728471_1367
+
+
+nohup hadoop jar mt.jar MaxTemperature /user/root/ncdc/90-93-256/90919293.txt.gz /user/$USER/output/week-08/item1/MaxTemp/90-93-256/gzip/1  > ~/user/$USER/cmd/week-08/item1/MaxTemp/90-93-256/gzip/1.txt &
+job_1490156728471_1368
+
+
+nohup hadoop jar mt.jar MaxTemperature /user/root/ncdc/90-93-256/90919293.txt.bz2 /user/$USER/output/week-08/item1/MaxTemp/90-93-256/bzip2/2  > ~/user/$USER/cmd/week-08/item1/MaxTemp/90-93-256/bzip2/2.txt &
+job_1490156728471_1369
+
+
+MaxTempWithCombiner:
+
+mkdir -p ~/user/$USER/cmd/week-08/item1/MaxTempWithCombiner/90and92-256/text
+mkdir -p ~/user/$USER/cmd/week-08/item1/MaxTempWithCombiner/90and92-256/gzip
+mkdir -p ~/user/$USER/cmd/week-08/item1/MaxTempWithCombiner/90and92-256/bzip2
+
+mkdir -p ~/user/$USER/cmd/week-08/item1/MaxTempWithCombiner/90-93-256/text
+mkdir -p ~/user/$USER/cmd/week-08/item1/MaxTempWithCombiner/90-93-256/gzip
+mkdir -p ~/user/$USER/cmd/week-08/item1/MaxTempWithCombiner/90-93-256/bzip2
+
+90and92-256
+nohup hadoop jar mt.jar MaxTemperatureWithCombiner /user/root/ncdc/90and92-256/1990and1992.txt  /user/$USER/output/week-08/item1/MaxTempWithCombiner/90and92-256/text/1  > ~/user/$USER/cmd/week-08/item1/MaxTempWithCombiner/90and92-256/text/1.txt &
+job_1490156728471_1370
+
+
+nohup hadoop jar mt.jar MaxTemperatureWithCombiner /user/root/ncdc/90and92-256/1990and1992.txt.gz  /user/$USER/output/week-08/item1/MaxTempWithCombiner/90and92-256/gzip/1  > ~/user/$USER/cmd/week-08/item1/MaxTempWithCombiner/90and92-256/gzip/1.txt &
+job_1490156728471_1470
+
+nohup hadoop jar mt.jar MaxTemperatureWithCombiner /user/root/ncdc/90and92-256/1990and1992.txt.bz2 /user/$USER/output/week-08/item1/MaxTempWithCombiner/90and92-256/bzip2/1  > ~/user/$USER/cmd/week-08/item1/MaxTempWithCombiner/90and92-256/bzip2/1.txt &
+job_1490156728471_1372
+
+-------over till here
+
+90-93-256
+
+nohup hadoop jar mt.jar MaxTemperatureWithCombiner /user/root/ncdc/90-93-256/90919293.txt  /user/$USER/output/week-08/item1/MaxTempWithCombiner/90-93-256/text/1  > ~/user/$USER/cmd/week-08/item1/MaxTempWithCombiner/90-93-256/text/1.txt &
+job_1490156728471_1472
+
+nohup hadoop jar mt.jar MaxTemperatureWithCombiner /user/root/ncdc/90-93-256/90919293.txt.gz /user/$USER/output/week-08/item1/MaxTempWithCombiner/90-93-256/gzip/1  > ~/user/$USER/cmd/week-08/item1/MaxTempWithCombiner/90-93-256/gzip/1.txt &
+job_1490156728471_1473
+
+
+
+nohup hadoop jar mt.jar MaxTemperatureWithCombiner /user/root/ncdc/90-93-256/90919293.txt.bz2  /user/$USER/output/week-08/item1/MaxTempWithCombiner/90-93-256/bzip2/1  > ~/user/$USER/cmd/week-08/item1/MaxTempWithCombiner/90-93-256/bzip2/1.txt &
+job_1490156728471_1474
+
+
+-------------------------------------------
+cd /home/schavan7/week-08/hadoop-book/ch02-mr-intro/src/main/java
+4:Compression:
+
+
+Week-08 hadoopbook
+mkdir -p ~/user/$USER/cmd/week-08/item1/MaxTempCustom/90and92-256/text
+mkdir -p ~/user/$USER/cmd/week-08/item1/MaxTempCustom/90and92-256/gzip
+mkdir -p ~/user/$USER/cmd/week-08/item1/MaxTempCustom/90and92-256/bzip2
+
+mkdir -p ~/user/$USER/cmd/week-08/item1/MaxTempCustom/90-93-256/text
+mkdir -p ~/user/$USER/cmd/week-08/item1/MaxTempCustom/90-93-256/gzip
+mkdir -p ~/user/$USER/cmd/week-08/item1/MaxTempCustom/90-93-256/bzip2
+
+90and92-256
+nohup hadoop jar mt.jar MaxTempCustom /user/root/ncdc/90and92-256/1990and1992.txt  /user/$USER/output/week-08/item1/MaxTempCustom/90and92-256/text/1  > ~/user/$USER/cmd/week-08/item1/MaxTempCustom/90and92-256/text/1.txt &
+job_1490156728471_1475
+
+nohup hadoop jar mt.jar MaxTempCustom /user/root/ncdc/90and92-256/1990and1992.txt.gz  /user/$USER/output/week-08/item1/MaxTempCustom/90and92-256/gzip/1  > ~/user/$USER/cmd/week-08/item1/MaxTempCustom/90and92-256/gzip/1.txt &
+job_1490156728471_1476
+
+nohup hadoop jar mt.jar MaxTempCustom /user/root/ncdc/90and92-256/1990and1992.txt.bz2 /user/$USER/output/week-08/item1/MaxTempCustom/90and92-256/bzip2/1  > ~/user/$USER/cmd/week-08/item1/MaxTempCustom/90and92-256/bzip2/1.txt &
+job_1490156728471_1477
+
+
+
+90-93-256
+
+nohup hadoop jar mt.jar MaxTempCustom /user/root/ncdc/90-93-256/90919293.txt  /user/$USER/output/week-08/item1/MaxTempCustom/90-93-256/text/1  > ~/user/$USER/cmd/week-08/item1/MaxTempCustom/90-93-256/text/1.txt &
+job_1490156728471_1478
+
+nohup hadoop jar mt.jar MaxTempCustom /user/root/ncdc/90-93-256/90919293.txt.gz  /user/$USER/output/week-08/item1/MaxTempCustom/90-93-256/gzip/1  > ~/user/$USER/cmd/week-08/item1/MaxTempCustom/90-93-256/gzip/1.txt &
+job_1490156728471_1479
+
+nohup hadoop jar mt.jar MaxTempCustom /user/root/ncdc/90-93-256/90919293.txt.bz2  /user/$USER/output/week-08/item1/MaxTempCustom/90-93-256/bzip2/1  > ~/user/$USER/cmd/week-08/item1/MaxTempCustom/90-93-256/bzip2/1.txt &
+job_1490156728471_1480
+
+
+------------------------------------
+
+/home/schavan7/week-08/CompressionWithCombiner/hadoop-book/ch02-mr-intro/src/main/java
+
+CompressionWithCombiner:
+
+Week-08 CompressionWithCombiner
+Directories are created
+
+mkdir -p ~/user/$USER/cmd/week-08/item1/MaxTempCustomWithCombiner/90and92-256/text
+mkdir -p ~/user/$USER/cmd/week-08/item1/MaxTempCustomWithCombiner/90and92-256/gzip
+mkdir -p ~/user/$USER/cmd/week-08/item1/MaxTempCustomWithCombiner/90and92-256/bzip2
+
+mkdir -p ~/user/$USER/cmd/week-08/item1/MaxTempCustomWithCombiner/90-93-256/text
+mkdir -p ~/user/$USER/cmd/week-08/item1/MaxTempCustomWithCombiner/90-93-256/gzip
+mkdir -p ~/user/$USER/cmd/week-08/item1/MaxTempCustomWithCombiner/90-93-256/bzip2
+
+90and92-256
+nohup hadoop jar mt.jar MaxTempCustomWithCombiner /user/root/ncdc/90and92-256/1990and1992.txt  /user/$USER/output/week-08/item1/MaxTempCustomWithCombiner/90and92-256/text/1  > ~/user/$USER/cmd/week-08/item1/MaxTempCustomWithCombiner/90and92-256/text/1.txt &
+job_1490156728471_1481
+
+nohup hadoop jar mt.jar MaxTempCustomWithCombiner /user/root/ncdc/90and92-256/1990and1992.txt.gz  /user/$USER/output/week-08/item1/MaxTempCustomWithCombiner/90and92-256/gzip/1  > ~/user/$USER/cmd/week-08/item1/MaxTempCustomWithCombiner/90and92-256/gzip/1.txt &
+job_1490156728471_1482
+
+nohup hadoop jar mt.jar MaxTempCustomWithCombiner /user/root/ncdc/90and92-256/1990and1992.txt.bz2  /user/$USER/output/week-08/item1/MaxTempCustomWithCombiner/90and92-256/bzip2/1  > ~/user/$USER/cmd/week-08/item1/MaxTempCustomWithCombiner/90and92-256/bzip2/1.txt &
+job_1490156728471_1483
+
+
+90-93-256
+
+nohup hadoop jar mt.jar MaxTempCustomWithCombiner /user/root/ncdc/90-93-256/90919293.txt  /user/$USER/output/week-08/item1/MaxTempCustomWithCombiner/90-93-256/text/1  > ~/user/$USER/cmd/week-08/item1/MaxTempCustomWithCombiner/90-93-256/text/1.txt &
+job_1490156728471_1484
+
+nohup hadoop jar mt.jar MaxTempCustomWithCombiner /user/root/ncdc/90-93-256/90919293.txt.gz  /user/$USER/output/week-08/item1/MaxTempCustomWithCombiner/90-93-256/gzip/1  > ~/user/$USER/cmd/week-08/item1/MaxTempCustomWithCombiner/90-93-256/gzip/1.txt &
+job_1490156728471_1485
+
+nohup hadoop jar mt.jar MaxTempCustomWithCombiner /user/root/ncdc/90-93-256/90919293.txt.bz2   /user/$USER/output/week-08/item1/MaxTempCustomWithCombiner/90-93-256/bzip2/1  > ~/user/$USER/cmd/week-08/item1/MaxTempCustomWithCombiner/90-93-256/bzip2/1.txt &
+job_1490156728471_1486
+
+
+
+
+Item 2:
+MINMAX:
+
+hadoop com.sun.tools.javac.Main *.java
+jar cf mt.jar MaxTemperature*.class
+
+scp -C -i ~/Desktop/schavan7  pgm.tar.gz  schavan7@64.131.111.35:/home/schavan7/week-08/item-02/src/
+
+mkdir -p ~/user/$USER/cmd/week-08/item2/MinMax/80-99/text/
+mkdir -p ~/user/$USER/cmd/week-08/item2/MinMax/80-99/gzip/
+mkdir -p ~/user/$USER/cmd/week-08/item2/MinMax/80-99/bzip2/
+
+nohup hadoop jar minmax.jar MaxMinTemperature /user/root/ncdc/80-99/80-90.txt  /user/$USER/output/week-08/item2/MinMax/80-99/text/2  > ~/user/$USER/cmd/week-08/item2/MinMax/80-99/text/2.txt &
+
+job_1490156728471_1571-old
+
+
+nohup hadoop jar minmax.jar MaxMinTemperature /user/root/ncdc/80-99/80-90.txt.gz /user/$USER/output/week-08/item2/MinMax/80-99/gzip/3  > ~/user/$USER/cmd/week-08/item2/MinMax/80-99/gzip/3.txt &
+
+job_1490156728471_1572-old
+job_1490156728471_1620-old
+job_1490156728471_2202- new
+
+
+nohup hadoop jar minmax.jar MaxMinTemperature /user/root/ncdc/80-99/80-90.txt.gz /user/$USER/output/week-08/item2/MinMax/80-99/gzip/4  > ~/user/$USER/cmd/week-08/item2/MinMax/80-99/gzip/4.txt &
+job_1490156728471_2201-new
+
+
+
+
+nohup hadoop jar minMax.jar MinMaxTemperature /user/root/ncdc/80-99/80-90.txt.bz2 /user/$USER/output/week-08/item2/MinMax/80-99/bzip2/3  > ~/user/$USER/cmd/week-08/item2/MinMax/80-99/bzip2/3.txt &
+job_1490156728471_1572
+job_1490156728471_1621
+
+
+
+Aug MinMax:
+mkdir -p ~/user/$USER/cmd/week-08/item2/AugMinMax/80-99/text/
+mkdir -p ~/user/$USER/cmd/week-08/item2/AugMinMax/80-99/gzip/
+mkdir -p ~/user/$USER/cmd/week-08/item2/AugMinMax/80-99/bzip2/
+
+nohup hadoop jar master.jar AvgMinMaxTemperature /user/root/ncdc/80-99/80-90.txt  /user/$USER/output/week-08/item2/AugMinMax/80-99/text/3  > ~/user/$USER/cmd/week-08/item2/AugMinMax/80-99/text/3.txt &
+job_1490156728471_1582
+
+
+nohup hadoop jar master.jar AvgMinMaxTemperature /user/root/ncdc/80-99/80-90.txt.gz /user/$USER/output/week-08/item2/AugMinMax/80-99/gzip/3  > ~/user/$USER/cmd/week-08/item2/AugMinMax/80-99/gzip/3.txt &
+job_1490156728471_1583
+
+
+nohup hadoop jar master.jar AvgMinMaxTemperature /user/root/ncdc/80-99/80-90.txt.bz2 /user/$USER/output/week-08/item2/AugMinMax/80-99/bzip2/3  > ~/user/$USER/cmd/week-08/item2/AugMinMax/80-99/bzip2/3.txt &
+job_1490156728471_1584
+
+
+
+
+
+MEDIAN:
+mkdir -p ~/user/$USER/cmd/week-08/item2/Median/80-99/text/
+mkdir -p ~/user/$USER/cmd/week-08/item2/Median/80-99/gzip/
+mkdir -p ~/user/$USER/cmd/week-08/item2/Median/80-99/bzip2/
+
+
+nohup hadoop jar master.jar MedianTemperature /user/root/ncdc/80-99/80-90.txt  /user/$USER/output/week-08/item2/Median/80-99/text/1  > ~/user/$USER/cmd/week-08/item2/Median/80-99/text/1.txt &
+job_1490156728471_1585
+
+
+nohup hadoop jar master.jar MedianTemperature /user/root/ncdc/80-99/80-90.txt.gz /user/$USER/output/week-08/item2/Median/80-99/gzip/1  > ~/user/$USER/cmd/week-08/item2/Median/80-99/gzip/1.txt &
+job_1490156728471_1586
+
+
+nohup hadoop jar master.jar MedianTemperature /user/root/ncdc/80-99/80-90.txt.bz2 /user/$USER/output/week-08/item2/Median/80-99/bzip2/1  > ~/user/$USER/cmd/week-08/item2/Median/80-99/bzip2/1.txt &
+job_1490156728471_1587
+
+
+SD:
+mkdir -p ~/user/$USER/cmd/week-08/item2/SD/80-99/text/
+mkdir -p ~/user/$USER/cmd/week-08/item2/SD/80-99/gzip/
+mkdir -p ~/user/$USER/cmd/week-08/item2/SD/80-99/bzip2/
+
++++++Run from here
+
+nohup hadoop jar master.jar SDTemperature /user/root/ncdc/80-99/80-90.txt  /user/$USER/output/week-08/item2/SD/80-99/text/1  > ~/user/$USER/cmd/week-08/item2/SD/80-99/text/1.txt &
+job_1490156728471_1617
+
+
+nohup hadoop jar master.jar SDTemperature /user/root/ncdc/80-99/80-90.txt.gz /user/$USER/output/week-08/item2/SD/80-99/gzip/1  > ~/user/$USER/cmd/week-08/item2/SD/80-99/gzip/1.txt &
+job_1490156728471_1618
+
+
+nohup hadoop jar master.jar SDTemperature /user/root/ncdc/80-99/80-90.txt.bz2 /user/$USER/output/week-08/item2/SD/80-99/bzip2/1  > ~/user/$USER/cmd/week-08/item2/SD/80-99/bzip2/1.txt &
+job_1490156728471_1619
+
+
+
+ITEM-03
+With Combiner
+
+mkdir -p ~/user/$USER/cmd/week-08/item3/MinMaxWithCombiner/80-99/text
+mkdir -p ~/user/$USER/cmd/week-08/item3/MinMaxWithCombiner/80-99/gzip
+mkdir -p ~/user/$USER/cmd/week-08/item3/MinMaxWithCombiner/80-99/bzip2
+
+nohup hadoop jar minMaxCombiner.jar MinMaxTemperatureWithCombiner /user/root/ncdc/80-99/80-90.txt  /user/$USER/output/week-08/item3/MinMaxWithCombiner/80-99/text/1  > ~/user/$USER/cmd/week-08/item3/MinMaxWithCombiner/80-99/text/1.txt &
+job_1490156728471_1772
+
+nohup hadoop jar minMaxCombiner.jar MinMaxTemperatureWithCombiner /user/root/ncdc/80-99/80-90.txt.gz /user/$USER/output/week-08/item3/MinMaxWithCombiner/80-99/gzip/1  > ~/user/$USER/cmd/week-08/item3/MinMaxWithCombiner/80-99/gzip/1.txt &
+job_1490156728471_1773
+
+
+nohup hadoop jar minMaxCombiner.jar MinMaxTemperatureWithCombiner /user/root/ncdc/80-99/80-90.txt.bz2 /user/$USER/output/week-08/item3/MinMaxWithCombiner/80-99/bzip2/1  > ~/user/$USER/cmd/week-08/item3/MinMaxWithCombiner/80-99/bzip2/1.txt &
+job_1490156728471_1774
+
+-------
+new jyoti code
+
+nohup hadoop jar minmaxWithCombiner.jar  MaxTemperatureWithCombiner /user/root/ncdc/80-99/80-90.txt /user/$USER/output/week-08/item3/MinMaxWithCombiner/80-99/text/2 > ~/user/$USER/cmd/week-08/item3/MinMaxWithCombiner/80-99/text/2.txt &
+
+
+
+
+nohup hadoop jar minmaxWithCombiner.jar  MaxTemperatureWithCombiner /user/root/ncdc/80-99/80-90.txt.gz /user/$USER/output/week-08/item3/MinMaxWithCombiner/80-99/gzip/1  > ~/user/$USER/cmd/week-08/item3/MinMaxWithCombiner/80-99/gzip/1.txt &
+
+
+nohup hadoop jar minmaxWithCombiner.jar  MaxTemperatureWithCombiner /user/root/ncdc/80-99/80-90.txt.bz2 /user/$USER/output/week-08/item3/MinMaxWithCombiner/80-99/bzip2/1  > ~/user/$USER/cmd/week-08/item3/MinMaxWithCombiner/80-99/bzip2/1.txt &
+
+
+
+
+Malformed:
+hadoop jar station.jar StationMalformed /user/$USER/Malformed/1990.gz /user/$USER/output/Malformed/1990/1
+job_1490976118114_0002
+
+
+ITEM-04
+
+vi ~/.bashrc 
+
+scp -C -i ~/Desktop/schavan7  *.java schavan7@64.131.111.35:/home/schavan7/week-08/item-02/src/
+
+scp -C -i ~/Desktop/schavan7  *.java  schavan7@64.131.111.35:/home/schavan7/week-08/item-04/src/
+
+hadoop jar station.jar StationMalformed /user/$USER/Malformed/1990.gz /user/$USER/output/Malformed/1990/2
+
+discover
+ARQ global technologies
+amcat-test
+
+
+
+
+week -11
+
+sqoop import --connect jdbc:mysql://localhost/hadoopguide --table widgets -m 1
+
+hadoop fs -cat widgets/part-m-00000 - input file(imported data)
+
+
+hadoop jar  sqoop-examples.jar MaxWidgetId -libjars /home/vagrant/sqoop/sqoop-1.4.6.jar
+
+hadoop jar  sqoop-examples.jar MinWidgetId -libjars /home/vagrant/sqoop/sqoop-1.4.6.jar
+
+
+
+-----------------------------------------------------
+Registration
+
+337932
+
+ITMM 586 Information Technology Auditing
+ITMT 531 Object Oriented System Analysis, Modeling and Design
+ITMO 544 Cloud Computing Technologies
+ITMD 527 Data Analytics - 6 remaining
+
+ITMO 554 Operating System Virtualization
+ITMD 532 UML Based Software Development
+
+------------------------------------------------------------------------------------------
+
+ITMD 527 Data Analytics - 6 remaining TR 10-11 am
+ITMM 586 Information Technology Auditing W 6-9 pm
+ITMT 531 Object Oriented System Analysis, Modeling and Design TR 3-4 pm -Online Confirmed
+ITMO 544 Cloud Computing Technologies - TR 10-11 am
+
+-------
+
+week 08
+item one ------
+
+1.All blocks in hfs are same except large block size
+2. triplicate
+3. less blocks files on fewer nodes
+4. less interaction wit name node
+5. Metadata size in name node is reduced
+6. Load on the name node decreases
+
+256
+
+large data helps
+small block helps for small size of data
+
+chaining:
+part 6 for week -07
+chaining will decrease the efficiency
+
+------------------------------------------------------
+
+week -13
+hadoop fs -mkdir -p ~/user/$USER/input/week13/itemone
+
+hadoop fs -copyFromLocal /vagrant_data/largelog/largefile.log ~/user/$USER/input/week13/itemone/
+hadoop fs -copyFromLocal /vagrant_data/small_log/small.log ~/user/$USER/input/week13/itemone/
+
+
+MainURL:
+
+hadoop jar url.jar MainURL ~/user/$USER/input/week13/itemone/largefile.log  /user/$USER/output/week13/itemone/largefile/
+
+hadoop jar url.jar MainURL ~/user/$USER/input/week13/itemone/small.log  /user/$USER/output/week13/itemone/smallfile/
+
+
+MainURLMonth:
+hadoop jar url.jar MainURLMonth ~/user/$USER/input/week13/itemone/largefile.log  /user/$USER/output/week13/itemone/Month/largefile/
+
+hadoop jar url.jar MainURLMonth ~/user/$USER/input/week13/itemone/small.log  /user/$USER/output/week13/itemone/Month/smallfile/
+
++++++++++++++++++++
+Item 1
+hadoop jar maxUrl.jar AppUrl ~/user/$USER/input/week13/itemone/largefile.log  /user/$USER/output/week13/itemone/day/largefile/
+
+hadoop jar maxUrl.jar AppUrl ~/user/$USER/input/week13/itemone/small.log  /user/$USER/output/week13/itemone/day/smallfile/
+
+
+
+hadoop jar maxUrl.jar AppUrlMonth ~/user/$USER/input/week13/itemone/largefile.log  /user/$USER/output/week13/itemone/month/largefile/
+
+hadoop jar maxUrl.jar AppUrlMonth ~/user/$USER/input/week13/itemone/small.log  /user/$USER/output/week13/itemone/month/smallfile/
+
+
+Ready.md
+
+1. From the src folder, copy all the java classes and compile them using the below command
+ 	hadoop com.sun.tools.javac.Main *.java
+
+2. Create a jar file using the below command
+ 	jar cf maxUrl.jar *.class
+
+3. Run the MapReduce job using AppUrl and AppUrlMonth class separately on the both datasets(large and small log files)
+	EX:hadoop jar maxUrl.jar AppUrl <input data path> <Output folder path>
+	   hadoop jar maxUrl.jar AppUrlMonth <input data path> <Output folder path>
+
+
+
+
+
+hadoop com.sun.tools.javac.Main *.java
+
+jar cf mt.jar MaxTemperature*.class
+
+
+
+Item 2:
+
+
+1. Compile the ParseAndInsertDB.java file using the below command:
+
+	javac ParseAndInsertDB.java
+
+2. Execute the below sql file to create database and sql (Note: Database name is "hadoop" and table name is log_data)
+	mysql -u<Username> -p  < create_table.sql
+
+3. Run the java file with inout file as a parameter to parse the data from the log file and insert the data into database.
+	java ParseAndInsertDB <input file path not hdfs file system>
+
+4.Execute the below sql files to display result per day and per month.
+
+	mysql -u<Username> -p<password>  <database name> < result_per_day.sql
+	mysql -u<Username> -p<password>  <database name> < result_per_month.sql
+
+5. Repeat the 3 to 4 steps for small log dataset.
+
+
+
+
+item 4
+
+1. Import data from database table 
+sqoop import --connect jdbc:mysql://localhost/logs --table log_data -m 1 
+
+2. copy data from hdfs file system to local 
+hadoop fs -copyToLocal /user/$USER/log_data/part-m-00000  ~/log_data.log 
+
+3. Open hive console and create table as below
+CREATE TABLE log_data(id INT, log_date Date, URL STRING, method STRING) ROW FORMAT DELIMITED FIELDS TERMINATED BY ',';
+
+4. Load data into table
+LOAD DATA LOCAL INPATH  "~/log_data.log" INTO TABLE log_data;
+
+
+5. Run below hive query to get per day
+select p.perday , max(p.link), max(p.cnt) as max from ((select log_date as perday, count(URL) as cnt, URL as link from log_data  group by log_date, URL order by perday)p) group by p.perday;
+
+6. Run below hive query to get per month
+select p.permonth , max(p.link), max(p.cnt) as max from ((select SUBSTR(log_date,1,7) as permonth, count(URL) as cnt, URL as link from log_data  group by SUBSTR(log_date,1,7) , URL order by permonth)p) group by p.permonth;
+
+
+
+item 5
+
+hadoop fs -copyToLocal /user/$USER/log_data/part-m-00000  hive/log_data.txt
+
+copy in hdfs
+
+
+
+
+1. copy data from hdfs file system to local as txt file
+	hadoop fs -copyToLocal /user/$USER/log_data/part-m-00000  ~/log_data.txt
+
+2. create pig directory in hdfs file system
+	hadoop fs -mkdir pig
+
+3. Copy the same txt file to the hdfs file under pig dir.
+	hadoop -copyFromLocal ~/log_data.txt pig/
+
+4. Rum below job for per day
+	pig maxUrlPerDay.pig
+
+5. Rum below job for per month
+	pig maxUrlPerMonth.pig
+
+6. repeat the steps for small dataset
+
+
+
+
+
+cp ~/Desktop/Hadoop\ final_project/One\ /Screen\ shot/* 
+
+
+
+
+
+
+
+item 6
+
+
+
+Mapreduce:
+
+Processing the data:
+1. Times depends totally on the size of the dataset to carry out the MR job.
+2. Overall it took close to 4 mins to carry out the task.
+3. As we have studied MR in detail, It was easy to understand how it works internally.
+
+Efficient way of concating the log files and transfer into into one .log file and use it as a input for MapReduce Job. transferring the data from the Local system to HDFS was not very complex. You can follow the below steps:
+
+  Large dataset:
+  hadoop fs -copyFromLocal /vagrant_data/item1/largelog /user/$USER/item1/largelog.log
+
+  Small dataset:
+  hadoop fs -copyFromLocal /vagrant_data/item1/smalllog /user/$USER/item1/smalllog.log
+
+
+
+SQL:
+1. Traditional was of querying the data as compared to MapReduce.
+2. Used JDBC connection to connect to the database.
+3. It took a lot of time using sql as first the data was written to the cvs file and the whole data was transferred to the database.
+4. We can run the sql commands in parallel but we cannot insert or query it at the same time.
+
+5. It took lesser time  as compared to MR.
+
+
+Sqoop:
+
+1. Sqoop is a mediator between Database and Hadoop file system.
+2. Sqoop code is a java code, which provides connectivity to databases through API.
+3. By using swoop we can swoop out the data from the database and insert it into HDFS.
+4. It interacts with both the HDFS and database and can be a mediator to transfer the data.
+
+
+
+
+Hive:
+
+1. Hive works on top of the data which is imported by using sqoop command.
+2. Hive is a compatible with sqoop as well as SQL.
+3. It is much more efficient than sqoop and MR while working on large datasets.
+4. Amongst the three, hive was the most compatible and efficient.
+
+
+
+Pig:
+
+1. Its an alternative method of MR.
+2. The queries were a little complex compared to sqoop and Hive.
+3. Time take was very less as compared to all of the above.
+
+
+For Pig Latin script, i copied the datasets into hdfs with the extension .txt and wrote 5 pig file which is of a simple query and in that query i load the data from the HDFS system and the query works as same as SQL but little bit complex query. Pig is a source alternative of Mapreduce, it approaches the complementary components on Hadoop.
+
+
+
